@@ -43,7 +43,7 @@ module.exports = (function() {
   router.route('/v1/campaign')
   
     .post(function(req, res) {
-      var campaign = new Campaign();
+      var campaign = new Campaign(model);
       campaign.post(req, res);
     })
   
@@ -52,7 +52,7 @@ module.exports = (function() {
         res.send(400, 'GET /api/v1/campaign id not defined. ');
       }
       else {
-        var campaign = new Campaign();
+        var campaign = new Campaign(model);
         campaign.get(req, res);
       }
     });
