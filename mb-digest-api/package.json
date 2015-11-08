@@ -1,8 +1,8 @@
 {
-  "name": "mb-logging-api",
-  "version": "0.2.1",
-  "description": "Logging API for Message Broker use.",
-  "homepage" : "https://github.com/DoSomething/mb-logging-api",
+  "name": "mb-digest-api",
+  "version": "0.1.0",
+  "description": "Digest API for Message Broker use.",
+  "homepage" : "https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-digest-api",
   "author": "Darren Lee <dlee@dosomething.org>",
   "contributors": [
     {
@@ -10,13 +10,13 @@
       "email": "dlee@dosomething.org"
     }
   ],
-  "main": "mb-logging-api-server.js",
+  "main": "mb-digest-api-server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DoSomething/mb-logging-api"
+    "url": "https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-digest-api"
   },
   "bugs": {
-    "url": "https://github.com/DoSomething/mb-logging-api/issues"
+    "url": "https://github.com/DoSomething/MessageBroker-Node/labels/mb-digest-api"
   },
   "engines" : {
     "node" : ">=0.12.5"
@@ -25,7 +25,7 @@
     "DoSomething.org",
     "Message Broker",
     "API",
-    "logging"
+    "digest"
   ],
   "dependencies": {
     "express": "~4.0.0",
@@ -33,9 +33,6 @@
     "body-parser": "~1.0.1",
     "morgan": "~1.6.0",
     "file-stream-rotator": "~0.0.6"
-  },
-  "scripts": {
-    "postinstall" : "node -e \"var modelpath='../model'; var dstmodelpath='node_modules/model'; var srcpath='../lib'; var dstsrcpath='node_modules/lib'; var cfgpath='../config'; var dstcfgpath='node_modules/config'; var fs=require('fs'); fs.exists(dstmodelpath,function(modelexists){if(!modelexists){fs.symlinkSync(modelpath, dstmodelpath,'dir');}});fs.exists(dstsrcpath,function(srcexists){if(!srcexists){fs.symlinkSync(srcpath, dstsrcpath,'dir');}});fs.exists(dstcfgpath,function(cfgexists){if(!cfgexists){fs.symlinkSync(cfgpath, dstcfgpath,'dir');}});\""
   },
   "license": "MIT"
 }
