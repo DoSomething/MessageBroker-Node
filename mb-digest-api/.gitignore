@@ -1,4 +1,4 @@
-# Ststtem files
+# OSX system files
 .DS_Store
 
 # Ignore config files
@@ -10,3 +10,6 @@ node_modules/
 # Ignore logs
 npm-debug.log
 logs/
+
+# Redis
+dump.rdb
