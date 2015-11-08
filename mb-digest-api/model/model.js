@@ -1,6 +1,6 @@
 module.exports = (function() {
 
-  var express  = require('express');
+  var express   = require('express');
   var app       = express();
   var redis     = require('redis');
   var mb_config = require('config/mb_config.json');
