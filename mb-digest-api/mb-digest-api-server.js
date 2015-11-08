@@ -1,5 +1,5 @@
 var express           = require('express');
-var mongoose          = require('mongoose');
+var redis             = require('redis');
 var bodyParser        = require('body-parser');
 var FileStreamRotator = require('file-stream-rotator');
 var fs                = require('fs');
@@ -8,6 +8,11 @@ var morgan            = require('morgan');
 var routes = require('./routes/routes');
 var mb_config = require(__dirname + '/config/mb_config.json');
 var logDirectory = __dirname + '/logs';
+
+// @todo - remove if use of mb_config.json makes more sense
+var PORT       = process.env.PORT       || 4744        ;
+var REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1' ;
+var REDIS_PORT = process.env.REDIS_PORT || 6379        ;
 
 /**
  * Express Setup
