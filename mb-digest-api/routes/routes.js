@@ -9,6 +9,7 @@ module.exports = (function() {
   var app = express();
 
   var router = express.Router();
+  console.log("Loading model/model");
   var model = require('model/model');
 
   var Campaign = require('lib/campaign');
