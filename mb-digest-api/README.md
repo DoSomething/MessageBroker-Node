@@ -15,6 +15,9 @@ An API to manage key/value data related to the cncurrent functionality with the 
     * value string (campaign row HTML markup)
 
 
+##### Configuration
+`/config/mb_config.json` needs to exist to define configuration settings for application. Settings should define "development" and "production" settings. Toggle the application use of the settings using the `NODE_ENV` setting.
+
 ##### Environment
 ```
 $ export NODE_ENV=<production | development>
@@ -28,4 +31,10 @@ $ export NODE_ENV=<production | development>
 ##### Start as Deamon
 ```
 $ NODE_ENV=<production | development> forever start mb-digest-api-server.js
+```
+
+##### Redis
+Start server with:
+```
+$ redis-server
 ```
