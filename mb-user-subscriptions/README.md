@@ -1,6 +1,5 @@
-mbc-user-subscriptions-server.js
+mbc-user-subscriptions
 =========================
-
 
 - A web interface for users to select their subscription preferences for various channels of communication. The user preferences are maintained in the `mb-users` database.
 
