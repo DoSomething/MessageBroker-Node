@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <title>DoSomething.org Subscriptions</title>
+      {{#if showTests}}
+        <link rel="stylesheet" href="/vendor/mocha.css">
+      {{/if}}
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="//code.jquery.com/jquery-2.0.2.min.js"></script>
+      <script src="neue.js"></script>
+      <script src="modernizr.js"></script>
+      <link rel="stylesheet" href="forge.css">
+      <link rel="stylesheet" href="/css/mbc-user-subscriptions.css">
+      <link rel="shortcut icon" href="/assets/images/favicon.ico">
+      <link rel="apple-touch-icon-precomposed" href="/assets/images/apple-touch-icon-precomposed.png">
+    </head>
+    <body>
+      <div class="chrome">
+        <div class="wrapper">
+
+          <nav class="navigation">
+            <a class="navigation__logo" href="https://www.dosomething.org"><span>DoSomething.org</span></a>
+            <a class="navigation__toggle js-navigation-toggle" href="#"><span>Show Menu</span></a>
+            <div class="navigation__menu">
+              <ul class="navigation__primary">
+                <li>
+                  <a href="https://www.dosomething.org/campaigns">
+                    <strong class="navigation__title">Explore Campaigns</strong>
+                    <span class="navigation__subtitle">Any cause, anytime, anywhere.</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.dosomething.org/about">
+                    <strong class="navigation__title">What is DoSomething.org?</strong>
+                    <span class="navigation__subtitle">Young people + Social change</span>
+                  </a>
+                </li>
+              </ul>
+          </nav>
+
+          <main role="main" class="container">
+            <div class="wrapper">
+              <div>
+                {{{body}}}
+              </div>
+              {{#if showTests}}
+                <div id="mocha"></div>
+                <script src="/vendor/mocha.js"></script>
+                <script src="/vendor/chai.js"></script>
+                <script>
+                  mocha.ui('tdd');
+                  var assert = chai.assert;
+                </script>
+                <script src="/qa/tests-global.js"></script>
+                {{#if pageTestScript}}
+                  <script src="{{pageTestScript}}"></script>
+                {{/if}}
+                <script>mocha.run();</script>
+              {{/if}}
+
+            </div>
+          </main>
+        </div>
+      </div>
+    </body>
+  </html>

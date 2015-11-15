@@ -1,0 +1,35 @@
+{{#if error}}
+  <h3>Error</h3>
+  {{error}}
+{{else}}
+  <h3>Subscription settings for {{target_email}}</h3>
+  {{#if subscriptions_banned}}
+    <p>Oops! Looks like we don't have your email in our system or this account has been banned. Email us at <a href="mailto:help@dosomething.org">help@dosomething.org</a> and we'll get you signed back up.</p>
+  {{else}}
+    <form class="form-horizontal" role="form" action="/process" method="POST">
+      <input type="hidden" name="targetEmail" value="{{target_email}}">
+      <input type="hidden" name="key" value="{{key}}">
+      <div class="form-item">
+        <label class="option -checkbox">
+          <input type="checkbox" id="mailchimp" name="mailchimp" value="1" {{subscriptions_mailchimp}} >
+          <span class="option__indicator"></span>
+          <span>The Weekly Do: Our weekly newsletter about campaigns you can take action on</span>
+        </label>
+        <input type="hidden" name="preStateMailchimp" value="{{subscriptions_mailchimp}}">
+        <!--
+        <label class="option -checkbox">
+          <input type="checkbox" id="user_events" name="user_events" value="1" {{subscriptions_user_events}} >
+          <span class="option__indicator"></span>
+          <span>User Events - Birthday and Annual DoSomething.org registration anniversaries.</span>
+        </label>
+        -->
+        <label class="option -checkbox">
+          <input type="checkbox" id="digest" name="digest" value="1" {{subscriptions_digest}} >
+          <span class="option__indicator"></span>
+          <span>Your Campaign Digest: Your weekly update on campaigns you signed up for</span>
+        </label>
+        <button class="button" type="submit">Update</button>
+      </div>
+    </form>
+  {{/if}}
+{{/if}}

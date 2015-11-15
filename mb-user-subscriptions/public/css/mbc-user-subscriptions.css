@@ -1,0 +1,19 @@
+@media (max-width: 800px) {
+  .container {
+    padding-top: 100px;
+    padding-left: 24px;
+  }
+}
+
+html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  background: #fff;
+}
+
+/* Specific to override neue */
+body .chrome .wrapper {
+  box-shadow: none;
+}

@@ -1,0 +1,51 @@
+{
+  "name": "mbc-user-subscriptions-server.js",
+  "version": "0.1.0",
+  "description": "Manage user triggered message subscription preferences.",
+  "homepage": "https://github.com/DoSomething/mbc-user-subscriptions",
+  "author": "Darren Lee <dlee@dosomething.org>",
+  "contributors": [
+    {
+      "name": "Darren 'Dee' Lee",
+      "email": "dlee@dosomething.org"
+    }
+  ],
+  "scripts": {
+    "test": "mocha --grep jshint",
+    "start": "node mbc-user-subscriptions-server.js",
+    "predeploy": "echo mbc-user-subscriptions-server deploying",
+    "postdeploy": "echo mbc-user-subscriptions-server deployed"
+  },
+  "main": "user-subscriptions-server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DoSomething/mbc-user-subscriptions"
+  },
+  "bugs": {
+    "url": "https://github.com/DoSomething/mbc-user-subscriptions/issues"
+  },
+  "engines": {
+    "node": ">=0.10.28"
+  },
+  "keywords": [
+    "DoSomething.org",
+    "Message Broker",
+    "subscriptions"
+  ],
+  "dependencies": {
+    "@dosomething/forge": "^6.5.1",
+    "MD5": "^1.2.*",
+    "body-parser": "^1.0.0",
+    "express": "^4.x.0",
+    "express-handlebars": "^1.0.0",
+    "mailchimp-api": "2.0.*",
+    "moment": "^2.9.x",
+    "qs": "^2.3.x"
+  },
+  "devDependencies": {
+    "mocha": "^2.0.0",
+    "chai": "^1.x.0",
+    "mocha-jshint": "^0.x"
+  },
+  "license": "MIT"
+}
