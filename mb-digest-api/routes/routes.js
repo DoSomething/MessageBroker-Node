@@ -44,8 +44,13 @@ module.exports = (function() {
   router.route('/v1/campaign')
   
     .post(function(req, res) {
-      var campaign = new Campaign(model);
-      campaign.post(req, res);
+      if (req.body.nid === undefined || req.body.language === undefined || req.body.markup === undefined) {
+        res.send(400, 'POST /api/v1/campaign nid, language or markup not defined. ');
+      }
+      else {
+        var campaign = new Campaign(model);
+        campaign.post(req, res);
+      }
     })
   
     .get(function(req, res) {
