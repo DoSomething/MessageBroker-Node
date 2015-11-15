@@ -16,7 +16,7 @@ function Campaign(model) {
 }
 
 /**
- * ??
+ * POST campaign details.
  *
  * @param req
  *  The request object in a POST callback.
@@ -46,14 +46,14 @@ Campaign.prototype.post = function(req, res) {
     }
   });
 
-  // Expire the key value after one hour, 60 seconds x 60 minutes
-  var ttl = 60 * 60;
+  // Expire the key value after one hour, 60 seconds x 60 minutes x 12 hours
+  var ttl = 60 * 60 * 12;
   client.expire(key, ttl);
   
 };
 
 /**
- * ??
+ * GET a specific campaign by nid (Drupal assigned) and language.
  *
  * @param req
  *   The request object in the GET callback.
