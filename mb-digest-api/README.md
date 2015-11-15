@@ -7,12 +7,14 @@ An API to manage key/value data related to the cncurrent functionality with the 
 
 * **GET /api** - report basic details about the API
 * **GET /api/v1**
-* **GET /v1/campaign?id=[ xxx ]** - gather markup for campaign by id (defined by Drupal app).
-  * @param id number
+* **GET /v1/campaign?nid=[ xxx ]&language=[ abc ]** - gather markup for campaign by nid (defined by Drupal app).
+  * @param nid integer
+  * @param language string
 * **POST /v1/campaign** - set markup for campaign by id (defined by Drupal app).
   * POST values:
-    * key string (mb-digest-campaign-[id]-[langauge]
-    * value string (campaign row HTML markup)
+    * nid integer: The Drupal nid of the campaign.
+    * language string: The language code used by the Druapl application for the translated versions of campaign.
+    * markup string Encoded HTML markup of campaign details.
 
 
 ##### Configuration
@@ -34,7 +36,17 @@ $ NODE_ENV=<production | development> forever start mb-digest-api-server.js
 ```
 
 ##### Redis
-Start server with:
+- **Start server with**:
 ```
 $ redis-server
+```
+
+- **CLI**:
+```
+$ redis-cli
+127.0.0.1:6379> set clikey1 clivalue1
+OK
+127.0.0.1:6379> get clikey1
+"clivalue1"
+
 ```
