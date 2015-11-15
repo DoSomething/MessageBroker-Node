@@ -59,11 +59,12 @@ Campaign.prototype.post = function(req, res) {
  *   The response object in the GET callback.
  */
 Campaign.prototype.get = function(req, res) {
-  this.request = req.body;
+  this.request = req.query;
   this.response = res;
+  var key = this.request.key;
 
-  client.get(this.request.key, function(err, reply) {
-    var results = key + ": " + reply;
+  client.get(key, function(err, reply) {
+    var results = "- " + key + ": " + reply;
     console.log(results);
     res.send(201, reply);
   });
