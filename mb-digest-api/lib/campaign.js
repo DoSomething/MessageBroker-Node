@@ -26,8 +26,10 @@ function Campaign(model) {
 Campaign.prototype.post = function(req, res) {
   this.request = req.body;
   this.response = res;
-  var key = "mb-digest-campaign-" + this.request.nid + '-' + this.request.language
-  
+
+  var key = "mb-digest-campaign-" + this.request.nid + '-' + this.request.language;
+  var markup = this.request.markup;
+
   // Check to see if the key already exists
   client.exists(key, function(err, reply) {
     if (reply === 1) {
@@ -36,7 +38,7 @@ Campaign.prototype.post = function(req, res) {
     } else {
 
       // Set the value for the key
-      client.set(key, this.request.markup, function(err, reply) {
+      client.set(key, markup, function(err, reply) {
         var results = key + ": " + reply;
         console.log(results);
         res.send(201, reply);
