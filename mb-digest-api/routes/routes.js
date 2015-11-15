@@ -49,8 +49,8 @@ module.exports = (function() {
     })
   
     .get(function(req, res) {
-      if (req.query.id === undefined) {
-        res.send(400, 'GET /api/v1/campaign id not defined. ');
+      if (req.query.key === undefined) {
+        res.send(400, 'GET /api/v1/campaign key not defined. ');
       }
       else {
         var campaign = new Campaign(model);
