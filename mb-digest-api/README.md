@@ -7,14 +7,14 @@ An API to manage key/value data related to the cncurrent functionality with the 
 
 * **GET /api** - report basic details about the API
 * **GET /api/v1**
-* **GET /v1/campaign?nid=[ xxx ]&language=[ abc ]** - gather markup for campaign by nid (defined by Drupal app).
-  * @param nid integer
-  * @param language string
-* **POST /v1/campaign** - set markup for campaign by id (defined by Drupal app).
+* **GET /api/v1/campaign?key=mb-digest-campaign-[ nid ]-[ language ]** - gather seralized campaign object that includes digest HTML markup property.
+  * @param nid integer (defined by Drupal node ID)
+  * @param language string (defined by possible language versions maintained by Drupal application)
+* **POST /api/v1/campaign** - set seralized object for campaign by nid and language (defined by Drupal app).
   * POST values:
     * nid integer: The Drupal nid of the campaign.
     * language string: The language code used by the Druapl application for the translated versions of campaign.
-    * markup string Encoded HTML markup of campaign details.
+    * object string: Seralized campaign object that includes markup property.
 
 
 ##### Configuration
