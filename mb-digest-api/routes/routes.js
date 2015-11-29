@@ -24,10 +24,10 @@ module.exports = (function() {
    * GET /api - report basic details about the API
    * GET /api/v1
    */
-  router.get('/', function(req, res) {
+  router.get('/api', function(req, res) {
     res.send(200, 'Message Broker Digest API (mb-digest-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-digest-api for the related git repository.');
   });
-  router.get('/v1', function(req, res) {
+  router.get('/api/v1', function(req, res) {
     res.send(200, 'Message Broker Digest API (mb-digest-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki) for documentation');
   });
   
@@ -41,11 +41,11 @@ module.exports = (function() {
    *   Required parameter:
    *     - id: The id of the desired campaign. The id value is defined in the Drupal app for each campaign node.
    */
-  router.route('/v1/campaign')
+  router.route('/api/v1/campaign')
   
     .post(function(req, res) {
-      if (req.body.nid === undefined || req.body.language === undefined || req.body.markup === undefined) {
-        res.send(400, 'POST /api/v1/campaign nid, language or markup not defined. ');
+      if (req.body.nid === undefined || req.body.language === undefined || req.body.object === undefined) {
+        res.send(400, 'POST /api/v1/campaign nid, language or object not defined. ');
       }
       else {
         var campaign = new Campaign(model);
