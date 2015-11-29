@@ -13,7 +13,7 @@ module.exports = (function() {
 
   // Redis
   // =============================================================================
-  // All configurations related to the mb-logging Mongo database.
+  // All configurations related to the mb-digest Redis database.
   if (app.get('env') == 'production') {
     var redisUri = mb_config.redis.production.uri;
     var redisPort = mb_config.redis.production.port;
@@ -26,9 +26,7 @@ module.exports = (function() {
   client.on('connect', function() {
     console.log('- Redis connected!');
   });
-  
- 
 
   return client;
-  
+
 })();
