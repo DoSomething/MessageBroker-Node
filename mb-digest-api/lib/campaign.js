@@ -28,7 +28,7 @@ Campaign.prototype.post = function(req, res) {
   this.response = res;
 
   var key = "mb-digest-campaign-" + this.request.nid + '-' + this.request.language;
-  var markup = this.request.markup;
+  var markup = this.request.object;
 
   // Check to see if the key already exists
   client.exists(key, function(err, reply) {
@@ -38,7 +38,7 @@ Campaign.prototype.post = function(req, res) {
     } else {
 
       // Set the value for the key
-      client.set(key, markup, function(err, reply) {
+      client.set(key, object, function(err, reply) {
         var results = key + ": " + reply;
         console.log(results);
         res.send(201, reply);
@@ -46,10 +46,12 @@ Campaign.prototype.post = function(req, res) {
     }
   });
 
-  // Expire the key value after one hour, 60 seconds x 60 minutes x 12 hours
+  // @todo: store key with list of all mb-digest-campaign keys. Used
+  // to gather all cached campaign objects to generate staus report.
+
+  // Expire the key value after 12 hours -> 60 seconds x 60 minutes x 12 hours
   var ttl = 60 * 60 * 12;
   client.expire(key, ttl);
-  
 };
 
 /**
@@ -63,10 +65,7 @@ Campaign.prototype.post = function(req, res) {
 Campaign.prototype.get = function(req, res) {
   this.request = req.query;
   this.response = res;
-
-  var nid = this.request.nid;
-  var language = this.request.language;
-  var key = "mb-digest-campaign-" + nid + "-" + language;
+  var key = this.request.key;
 
   client.get(key, function(err, reply) {
     var results = "- " + key + ": " + reply;
