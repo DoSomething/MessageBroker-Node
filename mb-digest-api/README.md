@@ -44,8 +44,16 @@ $ redis-server
 - **CLI**:
 ```
 $ redis-cli
+
+127.0.0.1:6379> info keyspace
+# Keyspace
+
+127.0.0.1:6379> keys *
+(empty list or set)
+
 127.0.0.1:6379> set clikey1 clivalue1
 OK
+
 127.0.0.1:6379> get clikey1
 "clivalue1"
 
