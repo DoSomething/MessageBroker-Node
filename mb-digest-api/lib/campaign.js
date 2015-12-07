@@ -18,6 +18,8 @@ function Campaign(model) {
 /**
  * POST campaign details.
  *
+ * Possible response codes: 201: Created, 304: Already defined.
+ *
  * @param req
  *  The request object in a POST callback.
  * @param res
@@ -34,14 +36,17 @@ Campaign.prototype.post = function(req, res) {
   client.exists(key, function(err, reply) {
     if (reply === 1) {
         console.log(key + ' already exists');
-        res.send(201, reply);
+        // @todo: convert to .status(304).json()
+        res.send(304, reply);
     } else {
 
       // Set the value for the key
-      client.set(key, object, function(err, reply) {
-        var results = key + ": " + reply;
-        console.log(results);
-        res.send(201, reply);
+      client.set(key, markup, function(err, reply) {
+        var results = {
+          key : reply
+        };
+        console.log("Key: " + key + " set. Response: " + reply);
+        res.status(201).json(results);
       });
     }
   });
@@ -57,6 +62,8 @@ Campaign.prototype.post = function(req, res) {
 /**
  * GET a specific campaign by nid (Drupal assigned) and language.
  *
+ * Response codes: 200: Successfully retrieved.
+ *
  * @param req
  *   The request object in the GET callback.
  * @param res
@@ -68,9 +75,18 @@ Campaign.prototype.get = function(req, res) {
   var key = this.request.key;
 
   client.get(key, function(err, reply) {
-    var results = "- " + key + ": " + reply;
-    console.log(results);
-    res.send(201, reply);
+
+    if (reply) {
+      var results = {
+        key : reply
+      };
+      console.log('Key: ' + key + ' found: ' + reply);
+      res.status(200).json(results);
+    }
+    else {
+      res.status(404).json('Key: ' + key + ' not found.'); ;
+    }
+
   });
 
 };
