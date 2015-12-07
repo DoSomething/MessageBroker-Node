@@ -23,11 +23,14 @@ module.exports = (function() {
   /**
    * GET /api - report basic details about the API
    * GET /api/v1
+   *
+   * Respond with 400 Bad Request when requirements do not pass.
+   * - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
    */
-  router.get('/api', function(req, res) {
+  router.get('/', function(req, res) {
     res.send(200, 'Message Broker Digest API (mb-digest-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-digest-api for the related git repository.');
   });
-  router.get('/api/v1', function(req, res) {
+  router.get('/v1', function(req, res) {
     res.send(200, 'Message Broker Digest API (mb-digest-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki) for documentation');
   });
   
@@ -40,8 +43,10 @@ module.exports = (function() {
    * GET to /v1/campaign
    *   Required parameter:
    *     - id: The id of the desired campaign. The id value is defined in the Drupal app for each campaign node.
+   *
+   * Respond with 400 Bad Request when requirements do not pass.
    */
-  router.route('/api/v1/campaign')
+  router.route('/v1/campaign')
   
     .post(function(req, res) {
       if (req.body.nid === undefined || req.body.language === undefined || req.body.object === undefined) {
