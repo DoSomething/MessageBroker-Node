@@ -1,5 +1,5 @@
 var request = require('supertest');
-var app = require('./app');
+var app = require('./mb-logging-api-server');
 
 request(app)
   .get('/')
