@@ -6,7 +6,6 @@ var fs                = require('fs');
 var morgan            = require('morgan');
  
 var routes = require('./routes/routes');
-var mb_config = require(__dirname + '/config/mb_config.json');
 var logDirectory = __dirname + '/logs';
 
 /**
