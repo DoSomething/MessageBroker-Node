@@ -56,7 +56,7 @@ module.exports = (function() {
            req.body.phone === undefined &&
            req.body.drupal_uid === undefined)
       ) {
-      res.send(400, 'Type, exists and source, origin or started_timestamp not specified or no email, phone or Drupal uid specified.');
+      res.status(400).json('Type, exists and source, origin or started_timestamp not specified or no email, phone or Drupal uid specified.');
     }
     else {
   
@@ -98,7 +98,7 @@ module.exports = (function() {
         req.body.target_CSV_file === undefined ||
         req.body.signup_count === undefined ||
         req.body.skipped === undefined) {
-      res.send(400, 'POST /api/v1/imports/summaries request. Type or source not specified or no target CSV file, signup count and skipped values specified.');
+      res.status(400).json('POST /api/v1/imports/summaries request. Type or source not specified or no target CSV file, signup count and skipped values specified.');
     }
     else {
       var userImportSummary = new UserImportSummary(model.importSummaryModel);
