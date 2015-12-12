@@ -7,12 +7,7 @@ describe('Requests to the root (/api) path', function() {
 
     request(app)
       .get('/api')
-      .expect(200)
-      .end(function(error) {
-        if (error) throw error;
-        done();
-      });
-
+      .expect(200, done);
   });
 
 });
@@ -23,12 +18,7 @@ describe('Requests to v1 root (/api/v1) path', function() {
 
     request(app)
       .get('/api/v1')
-      .expect(200)
-      .end(function(error) {
-        if (error) throw error;
-        done();
-      });
-
+      .expect(200, done);
   });
 
 });
@@ -39,12 +29,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
     request(app)
       .post('/api/v1/imports')
-      .expect(400)
-      .end(function(error) {
-        if (error) throw error;
-        done();
-      });
-
+      .expect(400, done);
   });
 
 });
@@ -55,12 +40,7 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
     request(app)
       .post('/api/v1/imports/summaries')
-      .expect(400)
-      .end(function(error) {
-        if (error) throw error;
-        done();
-      });
-
+      .expect(400, done);
   });
 
 });
@@ -71,24 +51,14 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
     request(app)
       .post('/api/v1/user/activity')
-      .expect(400)
-      .end(function(error) {
-        if (error) throw error;
-        done();
-      });
-
+      .expect(400, done);
   });
 
 it('GET: Returns a 400 status code when required parameter "type" and "source" are not defined.', function(done) {
 
     request(app)
       .get('/api/v1/user/activity')
-      .expect(400)
-      .end(function(error) {
-        if (error) throw error;
-        done();
-      });
-
+      .expect(400, done);
   });
 
 });
