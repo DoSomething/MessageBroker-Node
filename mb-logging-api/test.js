@@ -48,3 +48,35 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
   });
 
 });
+
+describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
+
+  it('Returns a 400 status code when required parameters type,source, target_CSV_file, signup_count and skipped are not defined.', function(done) {
+
+    request(app)
+      .post('/api/v1/imports/summaries')
+      .expect(400)
+      .end(function(error) {
+        if (error) throw error;
+        done();
+      });
+
+  });
+
+});
+
+describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
+
+  it('Returns a 400 status code when required parameter vote is not defined.', function(done) {
+
+    request(app)
+      .post('/api/v1/user/activity')
+      .expect(400)
+      .end(function(error) {
+        if (error) throw error;
+        done();
+      });
+
+  });
+
+});
