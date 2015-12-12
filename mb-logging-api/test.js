@@ -12,6 +12,23 @@ describe('Requests to the root (/api) path', function() {
         if (error) throw error;
         done();
       });
-    });
+
+  });
+
+});
+
+describe('Requests to v1 root (/api/v1) path', function() {
+
+  it('Returns a 200 status code', function(done) {
+
+    request(app)
+      .get('/api/v1')
+      .expect(200)
+      .end(function(error) {
+        if (error) throw error;
+        done();
+      });
+
+  });
 
 });
