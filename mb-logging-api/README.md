@@ -39,6 +39,8 @@ An API to send logging data for persistant storage. Currently the persistant sto
 $ npm install
 ```
 
+`shrinkwrap` is used to lock install module versions to gurentee functional releases. Deleting the `npm-shrinkwrap.json` file before installing with npm will result in the latest versions of packages being installed but the application may not work as expected.
+
 ##### Configuration
 A `./config/mb_config.json` file must have a structure of and contain values for:
 ```
