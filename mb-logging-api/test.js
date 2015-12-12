@@ -67,10 +67,22 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
 describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
-  it('Returns a 400 status code when required parameter vote is not defined.', function(done) {
+  it('POST: Returns a 400 status code when required parameter vote is not defined.', function(done) {
 
     request(app)
       .post('/api/v1/user/activity')
+      .expect(400)
+      .end(function(error) {
+        if (error) throw error;
+        done();
+      });
+
+  });
+
+it('GET: Returns a 400 status code when required parameter "type" and "source" are not defined.', function(done) {
+
+    request(app)
+      .get('/api/v1/user/activity')
       .expect(400)
       .end(function(error) {
         if (error) throw error;
