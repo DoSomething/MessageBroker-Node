@@ -3,7 +3,7 @@ var app = require('./mb-logging-api-server');
 
 describe('Requests to the root (/api) path', function() {
 
-  it('Returns a 200 status code', function(done) {
+  it('GET: Returns a 200 status code', function(done) {
 
     request(app)
       .get('/api')
@@ -19,7 +19,7 @@ describe('Requests to the root (/api) path', function() {
 
 describe('Requests to v1 root (/api/v1) path', function() {
 
-  it('Returns a 200 status code', function(done) {
+  it('GET: Returns a 200 status code', function(done) {
 
     request(app)
       .get('/api/v1')
@@ -35,7 +35,7 @@ describe('Requests to v1 root (/api/v1) path', function() {
 
 describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
-  it('Returns a 400 status code when required parameters type, exists, source, origin, processed_timestamp and email or phone or drupal_uid are not defined.', function(done) {
+  it('POST: Returns a 400 status code when required parameters type, exists, source, origin, processed_timestamp and email or phone or drupal_uid are not defined.', function(done) {
 
     request(app)
       .post('/api/v1/imports')
@@ -51,7 +51,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
 describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
-  it('Returns a 400 status code when required parameters type,source, target_CSV_file, signup_count and skipped are not defined.', function(done) {
+  it('POST: Returns a 400 status code when required parameters type,source, target_CSV_file, signup_count and skipped are not defined.', function(done) {
 
     request(app)
       .post('/api/v1/imports/summaries')
