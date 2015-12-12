@@ -131,7 +131,7 @@ module.exports = (function() {
   
     .post(function(req, res) {
       if (req.query.type != 'vote') {
-        res.send(400, 'POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
+        res.status(400).json('POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
@@ -141,7 +141,7 @@ module.exports = (function() {
   
     .get(function(req, res) {
       if (req.query.type === undefined && req.query.source === undefined) {
-        res.send(400, 'GET /api/v1/user/activity request, type and/or source not defined. ');
+        res.status(400).json('GET /api/v1/user/activity request, type and/or source not defined. ');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
