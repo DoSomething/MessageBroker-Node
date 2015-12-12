@@ -26,10 +26,10 @@ module.exports = (function() {
    * GET /api/v1
    */
   router.get('/', function(req, res) {
-    res.send(200, 'Message Broker Logging API (mb-logging-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-logging-api for the related git repository.');
+    res.status(200).json('Message Broker Logging API (mb-logging-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-logging-api for the related git repository.');
   });
   router.get('/v1', function(req, res) {
-    res.send(200, 'Message Broker Logging API (mb-logging-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki/mb-logging-api) for documentation');
+    res.status(200).json('Message Broker Logging API (mb-logging-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki/mb-logging-api) for documentation');
   });
 
   /**
