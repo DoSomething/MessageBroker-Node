@@ -1,0 +1,13 @@
+{
+  "default":
+    {
+      "port": "1234"
+    }
+  ,
+  "mongo":
+    {
+      "development" : "mongodb://localhost/mb-logging",
+      "production" : "mongodb://mongo:27017"
+    }
+}
+

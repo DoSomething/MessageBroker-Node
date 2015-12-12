@@ -1,8 +1,8 @@
 # Ststtem files
 .DS_Store
 
-# Ignore config files
-config/
+# Ignore config file
+config/mb_config.json
 
 # Libraries
 node_modules/
