@@ -10,6 +10,13 @@ describe('Requests to the root (/api) path', function() {
       .expect(200, done);
   });
 
+  it('GET: Returns JSON format', function(done) {
+
+    request(app)
+      .get('/api/v1')
+      .expect('content-type', 'application/json', done);
+  });
+
 });
 
 describe('Requests to v1 root (/api/v1) path', function() {
@@ -19,6 +26,13 @@ describe('Requests to v1 root (/api/v1) path', function() {
     request(app)
       .get('/api/v1')
       .expect(200, done);
+  });
+
+  it('GET: Returns JSON format', function(done) {
+
+    request(app)
+      .get('/api/v1')
+      .expect('content-type', 'application/json', done);
   });
 
 });
