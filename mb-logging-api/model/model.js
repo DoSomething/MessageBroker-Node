@@ -128,8 +128,6 @@ module.exports = (function() {
   
     // Log user activity model
     models.userActivityModel = mongoose.model(userActivityCollectionName, userActivityLoggingSchema);
-  
-    console.log("Connection to Mongo (%s) succeeded! Ready to go...\n\n", mongoUri);
   });
 
   return models;
