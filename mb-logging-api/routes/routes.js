@@ -15,7 +15,7 @@ module.exports = (function() {
   var UserImportSummary = require('lib/user-import-summary');
   var UserActivity = require('lib/user-activity');
 
-  if (app.get('env') == 'development') {
+  if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
     // console.log("/process request: " + util.inspect(request, false, null));
     var util = require('util');
@@ -56,7 +56,7 @@ module.exports = (function() {
            req.body.phone === undefined &&
            req.body.drupal_uid === undefined)
       ) {
-      res.status(400).json('Type, exists and source, origin or started_timestamp not specified or no email, phone or Drupal uid specified.');
+      res.status(400).json('type, exists, source and origin or processed_timestamp not specified or no email, phone or drupal_uid specified.');
     }
     else {
   
