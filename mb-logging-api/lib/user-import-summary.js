@@ -1,7 +1,12 @@
 /**
  * Interface to the User model.
  */
-var util = require('util');
+
+if (app.get('env') == 'development' || app.get('env') == 'test') {
+  // To output objects for debugging
+  // console.log("/process request: " + util.inspect(request, false, null));
+  var util = require('util');
+}
 
 /**
  * Constructor to the UserImportSummary object.
