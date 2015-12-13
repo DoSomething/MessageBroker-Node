@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Toggle tools and logging based on enviroment setting
-if (app.get('env') == 'development') {
+if (app.get('env') == 'development' || app.get('env') == 'test') {
   // To output objects for debugging
   // console.log("/ request: " + util.inspect(request, false, null));
   var util = require('util');
