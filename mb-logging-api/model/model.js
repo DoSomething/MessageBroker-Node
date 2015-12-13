@@ -5,7 +5,7 @@ module.exports = (function() {
   var mongoose  = require('mongoose');
   var mb_config = require('config/mb_config.json');
   
-  if (app.get('env') == 'development') {
+  if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
     // console.log("/process request: " + util.inspect(request, false, null));
     var util = require('util');
@@ -16,8 +16,13 @@ module.exports = (function() {
   // Mongoose (MongoDB)
   // =============================================================================
   // All configurations related to the mb-logging Mongo database.
+  var collectionIndentifier = '';
   if (app.get('env') == 'production') {
     var mongoUri = mb_config.mongo.production;
+  }
+  else if (app.get('env') == 'test') {
+    var mongoUri = mb_config.mongo.test;
+    var collectionIndentifier = '_test';
   }
   else {
     var mongoUri = mb_config.mongo.development;
@@ -29,14 +34,14 @@ module.exports = (function() {
   });
   
   // Define schema / models
-  var userImportCollectionName_Niche = 'userimport-niche';
-  var userImportCollectionName_HerCampus = 'userimport-hercampus';
-  var userImportCollectionName_ATT_iChannel = 'userimport-att-ichannel';
-  var userImportCollectionName_TeenLife = 'userimport-teenlife';
-  
-  var importSummaryCollectionName = 'import-summary';
-  
-  var userActivityCollectionName = 'user-activity';
+  var userImportCollectionName_Niche = 'userimport-niche' + collectionIndentifier;
+  var userImportCollectionName_HerCampus = 'userimport-hercampus' + collectionIndentifier;
+  var userImportCollectionName_ATT_iChannel = 'userimport-att-ichannel' + collectionIndentifier;
+  var userImportCollectionName_TeenLife = 'userimport-teenlife' + collectionIndentifier;
+  var importSummaryCollectionName = 'import-summary' + collectionIndentifier;
+  var userActivityCollectionName = 'user-activity' + collectionIndentifier;
+
+  console.log('userActivityCollectionName: ' + userActivityCollectionName);
   
   // Connection to Mongo event
   mongoose.connection.once('open', function() {
