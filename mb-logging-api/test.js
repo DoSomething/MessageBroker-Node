@@ -1,3 +1,14 @@
+/**
+ * Test for mb-logging-api
+ *
+ * References:
+ *   - HOW TO BUILD AND TEST YOUR REST API WITH NODE.JS, EXPRESS AND MOCHA
+ *     https://thewayofcode.wordpress.com/tag/supertest
+ *
+ *   - Shpuld Library
+ *     https://www.npmjs.com/package/should
+ */
+
 var request = require('supertest');
 var app = require('./mb-logging-api-server');
 
@@ -44,6 +55,51 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
     request(app)
       .post('/api/v1/imports')
       .expect(400, done);
+  });
+
+  it('POST: Returns JSON format', function(done) {
+
+    request(app)
+      .post('/api/v1/imports')
+      .expect('content-type', 'application/json', done);
+  });
+
+  /**
+   * Future test: POST to /api/v1/imports with the following parameters
+   * source=teenlife&exists=1&origin=TeenLife-12-12-15.csv&processed_timestamp=1425767744&type=user_import
+   *
+   * and the following body:
+   * var importEvent = {
+   *   "logging_timestamp": "1410285144",
+   *   "phone": "2345678901",
+   *   "phone_status": "Still a phone number",
+   *   "email": "test4@test.com",
+   *   "email_status": "We got this one too.",
+   *    "email_acquired_timestamp": "1310285144",
+   *    "drupal_uid": "23456789",
+   *    "drupal_email": "test4@test.com"
+   * };
+   *
+   * request(app)
+   *   .post('/api/v1/imports')
+   *   .send(importEvent)
+   *
+   * NOTE: Consider using "should" library. Note Express 3 example:
+   *   .end(function(err, res) {
+   *     if (err) {
+   *       throw err;
+   *     }
+   *     // this is should.js syntax, very clear
+   *    res.should.have.status(400);
+   *      done();
+   *     });
+   */
+
+  it('POST: Addition of import log entry returns 201 response code.', function(done) {
+
+    request(app)
+      .post('/api/v1/imports')
+      .expect(201, done);
   });
 
   it('POST: Returns JSON format', function(done) {
