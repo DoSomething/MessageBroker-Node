@@ -58,7 +58,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       .expect(400, done);
   });
 
-  it('POST: Returns JSON format', function(done) {
+  it('POST: Returns JSON format with 400 response.', function(done) {
 
     request(app)
       .post('/api/v1/imports')
@@ -70,7 +70,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   });
 
-  it('POST: Addition of import log entry returns 201 response code.', function(done) {
+  it('POST: Addition of import log entry returns 201 response code and "OK" message.', function(done) {
 
     urlParams = '?source=niche&exists=1&origin=Niche-12-12-15.csv&processed_timestamp=1000000000&type=user_import';
     request(app)
@@ -123,11 +123,54 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
       .expect(400, done);
   });
 
-  it('POST: Returns JSON format', function(done) {
+  it('POST: Returns JSON format with 400 response.', function(done) {
 
     request(app)
       .post('/api/v1/imports/summaries')
       .expect('content-type', 'application/json', done);
+  });
+
+  // @todo
+  it('GET: Lookup of missing import summary log entries returns 404 response code.', function(done) {
+
+  });
+
+  it('POST: Addition of import log summary entry returns 201 response code and "OK" message.', function(done) {
+
+    urlParams = '?source=niche&type=user_import';
+    request(app)
+      .post('/api/v1/imports/summaries' + urlParams)
+      .send({
+        "logging_timestamp": "1410000000",
+        "target_CSV_file": "2015-13-00.csv",
+        "signup_count": "69",
+        "skipped": "1"
+      })
+      .expect("content-type", /json/)
+      .expect(201)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(201)
+        response.body.should.equal("OK")
+        done();
+      });
+  });
+
+  // @todo
+  it('GET: Lookup of summary import log entry returns 200 response code. Returned data is formatted as expected.', function(done) {
+
+  });
+
+  // @todo
+  it('DELETE: Test summary log entry returns 200 response code.', function(done) {
+
+  });
+
+  // @todo
+  it('GET: Lookup of deleted import summary log entry returns 404 response code.', function(done) {
+
   });
 
 });
