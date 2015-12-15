@@ -63,13 +63,13 @@ UserImportSummary.prototype.post = function(req, res) {
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
     if (err) {
-      res.send(500, err);
-      console.log("ERROR - UserImportSummary.prototype.post: " + util.inspect(err, false, null));
+      res.status(500).json(err);
+      console.log("500 Error: POST to  /v1/imports/summaries. err response: " + util.inspect(err, false, null));
+      return;
     }
     // Added log entry to db
-    var fullAddArgs = util.inspect(addArgs, false, null)
-    res.send(201, addArgs);
-    return 1;
+    res.status(201).json("OK");
+
   });
 };
 
@@ -108,14 +108,14 @@ UserImportSummary.prototype.get = function(req, res) {
     ]},
     function (err, docs) {
       if (err) {
-        data.response.send(500, err);
-        return 0;
+        data.response.status(500).json(err);
+        console.log('500 Error: GET to /v1/imports/summaries');
+        return;
       }
 
       // Send results
-      data.response.send(201, docs);
-      console.log('Summary query returned.');
-      return 1;
+      data.response.status(200).json(docs);
+
   }).sort({ target_CSV_file : -1 })
 };
 
