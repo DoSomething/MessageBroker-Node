@@ -7,6 +7,9 @@
  *
  *   - Shpuld Library
  *     https://www.npmjs.com/package/should
+ *
+ *   - Test your REST api using Mocha and supertest
+ *     https://codeforgeek.com/2015/07/unit-testing-nodejs-application-using-mocha/
  */
 
 var request = require('supertest');
