@@ -69,9 +69,11 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
   });
 
   // @todo
+  /*
   it('GET: Lookup of missing import log entry returns 404 response code.', function(done) {
 
   });
+  */
 
   it('POST: Addition of import log entry returns 201 response code and "OK" message.', function(done) {
 
@@ -101,19 +103,25 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
   });
 
   // @todo
+  /*
   it('GET: Lookup of import log entry returns 200 response code. Returned data is formatted as expected.', function(done) {
 
   });
+  */
 
   // @todo
+  /*
   it('DELETE: Test import log entry returns 200 response code.', function(done) {
 
   });
+  */
 
   // @todo
+  /*
   it('GET: Lookup of deleted import log entry returns 404 response code.', function(done) {
 
   });
+  */
 
 });
 
@@ -134,9 +142,11 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
   });
 
   // @todo
+  /*
   it('GET: Lookup of missing import summary log entries returns 404 response code.', function(done) {
 
   });
+  */
 
   it('POST: Addition of import log summary entry returns 201 response code and "OK" message.', function(done) {
 
@@ -162,19 +172,25 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
   });
 
   // @todo
+  /*
   it('GET: Lookup of summary import log entry returns 200 response code. Returned data is formatted as expected.', function(done) {
 
   });
+  */
 
   // @todo
+  /*
   it('DELETE: Test summary log entry returns 200 response code.', function(done) {
 
   });
+  */
 
   // @todo
+  /*
   it('GET: Lookup of deleted import summary log entry returns 404 response code.', function(done) {
 
   });
+  */
 
 });
 
