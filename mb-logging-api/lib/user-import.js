@@ -74,10 +74,12 @@ UserImport.prototype.post = function(req, res) {
   logEntry.save(function(err) {
     if (err) {
       res.send(500, err);
+      console.log("500: Internal Server Error");
+      return;
     }
 
     // Added log entry to db
-    res.send(201, addArgs);
+    res.status(201).json("OK");
   });
 };
 

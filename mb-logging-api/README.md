@@ -34,6 +34,34 @@ An API to send logging data for persistant storage. Currently the persistant sto
     * activity_details seralized String
     * activity_date  Date
 
+##### Installation
+```
+$ npm install
+```
+
+`shrinkwrap` is used to lock install module versions to gurentee functional releases. Deleting the `npm-shrinkwrap.json` file before installing with npm will result in the latest versions of packages being installed but the application may not work as expected.
+
+##### Configuration
+A `./config/mb_config.json` file must have a structure of and contain values for:
+```
+{
+  "default":
+    {
+      "port": "1234"
+    }
+  ,
+  "mongo":
+    {
+      "development" : "mongodb://localhost/mb-logging",
+      "production" : "mongodb://mongo:27017"
+    }
+}
+
+```
+
+- Copy the sample `./config/SAMPLE_mb_config.json` file.
+
+
 ##### Environment
 ```
 $ export NODE_ENV=<production | development>
@@ -44,7 +72,19 @@ $ export NODE_ENV=<production | development>
 - **`development`**:
   - Use development Mongo database connection settings defined in config/mb_config.json.
 
-##### Start as Deamon
+##### Command Line
 ```
-$ NODE_ENV=<production | development> forever start mb-logging-api-server.js
+$ NODE_ENV=<production | development> ./bin/www
+$ curl -i http://localhost:4733/api
+```
+
+##### Start as Daemon
+```
+$ NODE_ENV=<production | development> forever start ./bin/www
+```
+
+##### Tests
+- to run the unit (supertest / mocha) tests:
+```
+$ npm test
 ```

@@ -2,7 +2,8 @@
  * Interface to the User model.
  */
 
-var   util = require('util');
+// Support output of objects
+var util = require('util');
 
 /**
  * Constructor to the Log object.

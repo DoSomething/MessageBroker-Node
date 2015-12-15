@@ -6,7 +6,6 @@ var fs                = require('fs');
 var morgan            = require('morgan');
  
 var routes = require('./routes/routes');
-var mb_config = require(__dirname + '/config/mb_config.json');
 var logDirectory = __dirname + '/logs';
 
 /**
@@ -31,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Toggle tools and logging based on enviroment setting
-if (app.get('env') == 'development') {
+if (app.get('env') == 'development' || app.get('env') == 'test') {
   // To output objects for debugging
   // console.log("/ request: " + util.inspect(request, false, null));
   var util = require('util');
@@ -49,10 +48,5 @@ else if (app.get('env') == 'production') {
 // All of routes will be prefixed with /api
 app.use('/api', routes);
 
-/**
- * Start server.
- */
-var port = process.env.MB_LOGGING_API_PORT || mb_config.default.port;
-app.listen(port, function() {
-  console.log('Message Broker Logging API server listening on port %d in %s mode.', port, app.settings.env);
-});
+// Assign to module to allow testing vs binding to a port - via
+module.exports = app;

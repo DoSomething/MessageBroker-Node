@@ -1,6 +1,8 @@
 /**
  * Application routes module. Routes define which objects to instantiate as
  * a result.
+ *
+ * Mounted on "/api" with: app.use('/api', routes);
  */
 
 module.exports = (function() {

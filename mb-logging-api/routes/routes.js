@@ -15,7 +15,7 @@ module.exports = (function() {
   var UserImportSummary = require('lib/user-import-summary');
   var UserActivity = require('lib/user-activity');
 
-  if (app.get('env') == 'development') {
+  if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
     // console.log("/process request: " + util.inspect(request, false, null));
     var util = require('util');
@@ -26,10 +26,10 @@ module.exports = (function() {
    * GET /api/v1
    */
   router.get('/', function(req, res) {
-    res.send(200, 'Message Broker Logging API (mb-logging-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/mb-logging-api for the related git repository.');
+    res.status(200).json('Message Broker Logging API (mb-logging-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-logging-api for the related git repository.');
   });
   router.get('/v1', function(req, res) {
-    res.send(200, 'Message Broker Logging API (mb-logging-api). Version 1.x.x, see wiki (https://github.com/DoSomething/mb-logging-api/wiki) for documentation');
+    res.status(200).json('Message Broker Logging API (mb-logging-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki/mb-logging-api) for documentation');
   });
 
   /**
@@ -56,7 +56,7 @@ module.exports = (function() {
            req.body.phone === undefined &&
            req.body.drupal_uid === undefined)
       ) {
-      res.send(400, 'Type, exists and source, origin or started_timestamp not specified or no email, phone or Drupal uid specified.');
+      res.status(400).json('type, exists, source and origin or processed_timestamp not specified or no email, phone or drupal_uid specified.');
     }
     else {
   
@@ -98,7 +98,7 @@ module.exports = (function() {
         req.body.target_CSV_file === undefined ||
         req.body.signup_count === undefined ||
         req.body.skipped === undefined) {
-      res.send(400, 'POST /api/v1/imports/summaries request. Type or source not specified or no target CSV file, signup count and skipped values specified.');
+      res.status(400).json('POST /api/v1/imports/summaries request. Type or source not specified or no target CSV file, signup count and skipped values specified.');
     }
     else {
       var userImportSummary = new UserImportSummary(model.importSummaryModel);
@@ -131,7 +131,7 @@ module.exports = (function() {
   
     .post(function(req, res) {
       if (req.query.type != 'vote') {
-        res.send(400, 'POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
+        res.status(400).json('POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
@@ -141,7 +141,7 @@ module.exports = (function() {
   
     .get(function(req, res) {
       if (req.query.type === undefined && req.query.source === undefined) {
-        res.send(400, 'GET /api/v1/user/activity request, type and/or source not defined. ');
+        res.status(400).json('GET /api/v1/user/activity request, type and/or source not defined. ');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
