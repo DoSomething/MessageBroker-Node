@@ -14,6 +14,7 @@ module.exports = (function() {
   var UserImport = require('lib/user-import');
   var UserImportSummary = require('lib/user-import-summary');
   var UserActivity = require('lib/user-activity');
+  var UserTransactional = require('lib/user-transactional');
 
   if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
