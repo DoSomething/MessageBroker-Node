@@ -40,15 +40,11 @@ UserTransactional.prototype.post = function(req, res) {
   var addArgs = {};
 
   // Required
-  addArgs.email = this.request.body.email;
+  addArgs.email = this.request.query.email;
   addArgs.activity = this.request.query.activity;
+  addArgs.logged_date = new Date();
 
   // Optional
-  if (this.request.body.logging_timestamp !== undefined) {
-    // Convert timestamp string to Date object
-    var timestamp = parseInt(this.request.body.logging_timestamp);
-    addArgs.logged_date = convertToDate(timestamp);
-  }
   if (this.request.body.activity_timestamp !== undefined) {
     // Convert timestamp string to Date object
     var timestamp = parseInt(this.request.body.activity_timestamp);
@@ -57,8 +53,8 @@ UserTransactional.prototype.post = function(req, res) {
   if (this.request.body.mobile !== undefined) {
     addArgs.mobile = this.request.body.mobile;
   }
-  if (this.request.body.activity_details !== undefined) {
-    addArgs.activity_details = this.request.body.activity_details;
+  if (this.request.body.message !== undefined) {
+    addArgs.activity_details = this.request.body.message;
   }
 
   var logEntry = new this.docModel(addArgs);
@@ -84,7 +80,6 @@ UserTransactional.prototype.post = function(req, res) {
  *   The response object in the GET callback.
  */
 UserTransactional.prototype.get = function(req, res) {
-
 
 };
 
