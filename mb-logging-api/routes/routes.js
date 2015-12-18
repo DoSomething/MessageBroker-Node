@@ -175,7 +175,7 @@ module.exports = (function() {
     .post(function(req, res) {
       if (req.query.email === undefined ||
           req.query.activity === undefined) {
-        res.status(400).json('POST /api/v1/user/transactional request. "email" or "source"activity" not specified.');
+        res.status(400).json('POST /api/v1/user/transactional request. "email" or "activity" not specified.');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
