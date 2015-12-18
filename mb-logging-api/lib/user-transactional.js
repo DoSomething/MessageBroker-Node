@@ -34,10 +34,22 @@ var convertToDate = function(timestamp) {
  *  The response object in a POST callback.
  */
 UserTransactional.prototype.post = function(req, res) {
+
   this.request = req;
   this.response = res;
   var addArgs = {};
 
+  var logEntry = new this.docModel(addArgs);
+  logEntry.save(function(err) {
+    if (err) {
+      res.status(500).json(err);
+      console.log("500 Error: POST to  /v1/user/transactional. err response: " + util.inspect(err, false, null));
+      return;
+    }
+
+    // Added log entry to db
+    res.status(201).json("OK");
+  });
 };
 
 /**
