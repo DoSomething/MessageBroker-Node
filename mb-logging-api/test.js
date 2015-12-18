@@ -262,7 +262,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
 
   it('POST: Addition of user activity "user_register" entry returns 201 response code and "OK" message.', function(done) {
 
-    urlParams = '?email=test%40test.com&activity=user_register';
+    urlParams = '?email=test%40test.com&activity=user_registration';
     request(app)
       .post('/api/v1/user/transactional' + urlParams)
       .send({
