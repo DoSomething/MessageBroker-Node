@@ -302,12 +302,21 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
       });
   });
 
-  // @todo
-  /*
-  it('DELETE: Test user activity log entry returns 200 response code.', function(done) {
+  it('DELETE: Test user "test@test.com" activity log entry returns 200 response code and JSON "OK".', function(done) {
+
+    urlParams = '?email=test%40test.com';
+    request(app)
+      .delete('/api/v1/user/transactional' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(200);
+        response.body.should.equal("OK");
+        done();
+      });
 
   });
-  */
 
   // @todo
   /*
