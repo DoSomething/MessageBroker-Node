@@ -95,8 +95,23 @@ UserTransactional.prototype.get = function(req, res) {
       // Send results
       res.status(200).json(docs);
 
-  }).sort({ activity_date : -1 })
+  }).sort({ activity_date : -1 });
 
+};
+
+/**
+ * Delete user activity log documents. Example request DELETE:
+ * /api/v1/user/activity?email=test@test.com
+ *
+ * @param req
+ *   The request object in the GET callback.
+ * @param res
+ *   The response object in the GET callback.
+ */
+UserTransactional.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
 
 };
 
