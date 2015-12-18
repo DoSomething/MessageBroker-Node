@@ -26,7 +26,7 @@ var convertToDate = function(timestamp) {
 };
 
 /**
- * Create a log document from the supplied values for a user activity.
+ * Create a log document from the supplied values for a user transactional.
  *
  * @param req
  *  The request object in a POST callback.
@@ -38,6 +38,28 @@ UserTransactional.prototype.post = function(req, res) {
   this.request = req;
   this.response = res;
   var addArgs = {};
+
+  // Required
+  addArgs.email = this.request.body.email;
+  addArgs.activity = this.request.query.activity;
+
+  // Optional
+  if (this.request.body.logging_timestamp !== undefined) {
+    // Convert timestamp string to Date object
+    var timestamp = parseInt(this.request.body.logging_timestamp);
+    addArgs.logged_date = convertToDate(timestamp);
+  }
+  if (this.request.body.activity_timestamp !== undefined) {
+    // Convert timestamp string to Date object
+    var timestamp = parseInt(this.request.body.activity_timestamp);
+    addArgs.activity_date = convertToDate(timestamp);
+  }
+  if (this.request.body.mobile !== undefined) {
+    addArgs.mobile = this.request.body.mobile;
+  }
+  if (this.request.body.activity_details !== undefined) {
+    addArgs.activity_details = this.request.body.activity_details;
+  }
 
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
