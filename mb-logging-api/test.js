@@ -12,6 +12,7 @@
  *     https://codeforgeek.com/2015/07/unit-testing-nodejs-application-using-mocha/
  */
 
+var util = require('util');
 var request = require('supertest');
 var should = require('should');
 var app = require('./mb-logging-api-server');
@@ -236,7 +237,7 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
     request(app)
       .get('/api/v1/user/activity')
-      .expect('content-type', 'application/json', done);
+      .expect("content-type", /json/, done);
   });
 
 });
@@ -282,12 +283,24 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
       });
   });
 
-  // @todo
-  /*
-  it('GET: Lookup of user activity log entry returns 200 response code. Returned data is formatted as expected.', function(done) {
+  it('GET: Lookup of user activity log entries returns 200 response code and JSON message. Returned data is formatted as expected.', function(done) {
 
+    urlParams = '?email=test%40test.com';
+    request(app)
+      .get('/api/v1/user/transactional' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, res) {
+        if (err) throw err;
+        res.status.should.equal(200);
+        res.body[0].email.should.equal("test@test.com");
+        res.body[0].activity.should.equal("user_registration");
+        res.body[0].activity_details.should.not.equal(null);
+        res.body[0].should.have.property('activity_date');
+        res.body[0].should.have.property('logged_date');
+        done();
+      });
   });
-  */
 
   // @todo
   /*
