@@ -312,7 +312,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
       .end(function(err, response) {
         if (err) throw err;
         response.status.should.equal(200);
-        response.body.should.equal("OK");
+        response.body.should.startWith('OK');
         done();
       });
 
