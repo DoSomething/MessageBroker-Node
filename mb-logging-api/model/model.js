@@ -40,8 +40,7 @@ module.exports = (function() {
   var userImportCollectionName_TeenLife = 'userimport-teenlife' + collectionIndentifier;
   var importSummaryCollectionName = 'import-summary' + collectionIndentifier;
   var userActivityCollectionName = 'user-activity' + collectionIndentifier;
-
-  console.log('userActivityCollectionName: ' + userActivityCollectionName);
+  var userTransactionalCollectionName = 'user-transactional' + collectionIndentifier;
   
   // Connection to Mongo event
   mongoose.connection.once('open', function() {
@@ -133,6 +132,27 @@ module.exports = (function() {
   
     // Log user activity model
     models.userActivityModel = mongoose.model(userActivityCollectionName, userActivityLoggingSchema);
+
+    /**
+     * userTransactional: Transaction message request events
+     */
+    var userTransactionalLoggingSchema = new mongoose.Schema({
+      logged_date : { type: Date, default: Date.now },
+      email : { type : String, trim : true },
+      mobile : { type : String, trim : true },
+      activity : {
+        type : String,
+        lowercase : 1,
+        trim : true,
+        enum: ['user_registration', 'user_password', 'campaign_signup', 'campaign_reportback']
+      },
+      activity_date : { type: Date, default: Date.now },
+      activity_details : { type : String }
+    });
+    userTransactionalLoggingSchema.set('autoIndex', false);
+
+    // Log user transactional model
+    models.userTransactionalModel = mongoose.model(userTransactionalCollectionName, userTransactionalLoggingSchema);
   });
 
   return models;

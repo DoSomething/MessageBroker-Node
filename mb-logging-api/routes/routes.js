@@ -14,6 +14,7 @@ module.exports = (function() {
   var UserImport = require('lib/user-import');
   var UserImportSummary = require('lib/user-import-summary');
   var UserActivity = require('lib/user-activity');
+  var UserTransactional = require('lib/user-transactional');
 
   if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
@@ -149,6 +150,59 @@ module.exports = (function() {
       }
     });
     
+  /**
+   * POST to /v1/user/transactional
+   *   Required parameters:
+   *     - email: The unique email address of the transactional message request
+   *     - activity: One of "user_register", "user_password", campaign_signup" or "campaign_reportback".
+   *
+   *   POST values:
+   *     - source
+   *     - activity_timestamp
+   *     - message
+   *     - mobile (optional)
+   *
+   * GET to /v1/user/transactional
+   *   Required parameter:
+   *     - email
+   *
+   * DELETE to /v1/user/transactional
+   *   Required parameter:
+   *     - email
+   */
+  router.route('/v1/user/transactional')
+
+    .post(function(req, res) {
+      if (req.query.email === undefined ||
+          req.query.activity === undefined) {
+        res.status(400).json('POST /api/v1/user/transactional request. email or activity not specified.');
+      }
+      else {
+        var userTransactional = new UserTransactional(model.userTransactionalModel);
+        userTransactional.post(req, res);
+      }
+    })
+
+    .get(function(req, res) {
+      if (req.query.email === undefined) {
+        res.status(400).json('GET /api/v1/user/transactional request, email not defined. ');
+      }
+      else {
+        var userTransactional = new UserTransactional(model.userTransactionalModel);
+        userTransactional.get(req, res)
+      }
+    })
+
+    .delete(function(req, res) {
+      if (req.query.email === undefined) {
+        res.status(400).json('DELETE /api/v1/user/transactional request, email not defined.');
+      }
+      else {
+        var userTransactional = new UserTransactional(model.userTransactionalModel);
+        userTransactional.delete(req, res);
+      }
+    });
+
     return router;
-    
+
 })();
