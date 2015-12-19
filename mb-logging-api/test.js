@@ -318,11 +318,14 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
 
   });
 
-  // @todo
-  /*
   it('GET: Lookup of deleted user activity log entry returns 404 response code.', function(done) {
 
+    urlParams = '?email=test%40test.com';
+    request(app)
+      .get('/api/v1/user/transactional' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/, done);
+
   });
-  */
 
 });
