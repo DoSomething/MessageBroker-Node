@@ -18,7 +18,7 @@ var should = require('should');
 var app = require('./mb-logging-api-server');
 
 /**
- *
+ * Tests for API ping endpoints.
  */
 describe('Requests to the root (/api) path', function() {
 
@@ -39,7 +39,7 @@ describe('Requests to the root (/api) path', function() {
 });
 
 /**
- *
+ * Test API V1 information / status endpoint.
  */
 describe('Requests to v1 root (/api/v1) path', function() {
 
@@ -75,8 +75,29 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
     request(app)
       .post('/api/v1/imports')
-      .expect('content-type', 'application/json', done);
+      .expect("content-type", /json/, done);
   });
+
+  // @todo
+  /*
+  it('POST: Import log entry returns 200 response code and OK message.', function(done) {
+
+  });
+  */
+
+  // @todo
+  /*
+  it('GET: Lookup import log entry returns 200 response code and expected content.', function(done) {
+
+  });
+  */
+
+  // @todo
+  /*
+  it('DELETE: Import log entry returns 200 response code and expected OK response.', function(done) {
+
+  });
+  */
 
   // @todo
   /*
@@ -208,7 +229,7 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 });
 
 /**
- *
+ * Test for POST and GET /api/v1/user/activity endpoints.
  */
 describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
@@ -243,7 +264,7 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 });
 
 /**
- *
+ * Test GET, POST and DELETE /api/v1/user/transactional endpoints.
  */
 describe('Requests to v1 imports (/api/v1/user/transactional) path', function() {
 
