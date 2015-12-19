@@ -175,7 +175,7 @@ module.exports = (function() {
     .post(function(req, res) {
       if (req.query.email === undefined ||
           req.query.activity === undefined) {
-        res.status(400).json('POST /api/v1/user/transactional request. "email" or "activity" not specified.');
+        res.status(400).json('POST /api/v1/user/transactional request. email or activity not specified.');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
@@ -185,7 +185,7 @@ module.exports = (function() {
 
     .get(function(req, res) {
       if (req.query.email === undefined) {
-        res.status(400).json('GET /api/v1/user/transactional request, "email" not defined. ');
+        res.status(400).json('GET /api/v1/user/transactional request, email not defined. ');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
@@ -195,7 +195,7 @@ module.exports = (function() {
 
     .delete(function(req, res) {
       if (req.query.email === undefined) {
-        res.status(400).json('DELETE /api/v1/user/transactional request, "email" not defined. ');
+        res.status(400).json('DELETE /api/v1/user/transactional request, email not defined.');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
