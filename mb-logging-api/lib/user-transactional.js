@@ -83,8 +83,9 @@ UserTransactional.prototype.get = function(req, res) {
 
   this.request = req;
   this.response = res;
+  var targetEmail = this.request.query.email.toLowerCase();
 
-  this.docModel.find( { 'email' : this.request.query.email.toLowerCase() },
+  this.docModel.find( { 'email' : targetEmail },
     function (err, docs) {
       if (err) {
         console.log('500 Error: GET to /v1/imports/summaries');
@@ -92,8 +93,12 @@ UserTransactional.prototype.get = function(req, res) {
         return;
       }
 
-      // Send results
-      res.status(200).json(docs);
+      if (docs.length == 0) {
+        res.status(404).json('No match found for ' + targetEmail);
+      }
+      else {
+        res.status(200).json(docs);
+      }
 
   }).sort({ activity_date : -1 });
 
