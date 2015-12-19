@@ -154,7 +154,7 @@ module.exports = (function() {
    * POST to /v1/user/transactional
    *   Required parameters:
    *     - email: The unique email address of the transactional message request
-   *     - activity: One of "user_register", "user_password", campaign_signup" or "campaign_reportback".
+   *     - activity: One of "user_registration", "user_password", campaign_signup" or "campaign_reportback".
    *
    *   POST values:
    *     - source
