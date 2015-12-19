@@ -121,8 +121,8 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         "drupal_uid": "12000000",
         "drupal_email": "test@test.com"
       })
-      .expect("content-type", /json/)
       .expect(201)
+      .expect("content-type", /json/)
       .end(function(err, response) {
         if (err) {
           throw err;
@@ -193,8 +193,8 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
         "signup_count": "69",
         "skipped": "1"
       })
-      .expect("content-type", /json/)
       .expect(201)
+      .expect("content-type", /json/)
       .end(function(err, response) {
         if (err) {
           throw err;
@@ -292,8 +292,8 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
         "activity_timestamp": "1450143371",
         "message": "a:13:{s:8:\"activity\";s:13:\"user_register\";s:5:\"email\";s:13:\"test@test.com\";s:3:\"uid\";s:7:\"3400745\";s:10:\"merge_vars\";a:2:{s:12:\"MEMBER_COUNT\";s:11:\"4.6 million\";s:5:\"FNAME\";s:4:\"Test\";}s:12:\"user_country\";s:2:\"US\";s:13:\"user_language\";s:2:\"en\";s:14:\"email_template\";s:19:\"mb-user-register-US\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:9:\"birthdate\";s:9:\"133574400\";s:10:\"subscribed\";i:1;s:10:\"email_tags\";a:1:{i:0;s:20:\"drupal_user_register\";}s:18:\"activity_timestamp\";i:1450143371;s:14:\"application_id\";s:2:\"US\";}"
       })
-      .expect("content-type", /json/)
       .expect(201)
+      .expect("content-type", /json/)
       .end(function(err, response) {
         if (err) {
           throw err;
@@ -333,7 +333,23 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
       .end(function(err, response) {
         if (err) throw err;
         response.status.should.equal(200);
-        response.body.should.startWith('OK');
+        response.body.should.startWith('OK - Deleted');
+        done();
+      });
+
+  });
+
+  it('DELETE: Attempted deletion of missing test user "test@test.com" activity log entry returns 204 response code and JSON "OK".', function(done) {
+
+    urlParams = '?email=test%40test.com';
+    request(app)
+      .delete('/api/v1/user/transactional' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
         done();
       });
 
@@ -345,8 +361,13 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
     request(app)
       .get('/api/v1/user/transactional' + urlParams)
       .expect(404)
-      .expect("content-type", /json/, done);
-
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No match found');
+        done();
+      });
   });
 
 });
