@@ -33,7 +33,7 @@ An API to send logging data for persistant storage. Currently the persistant sto
     * source string
     * activity_details seralized String
     * activity_date  Date
-* **POST /v1/user/transactional?email=[ email ]&activity=[ user_registration | user_password', campaign_signup | campaign_reportback ]**
+* **POST /v1/user/transactional?email=[ email ]&activity=[ user_registration | user_password | campaign_signup | campaign_reportback ]**
   * @param email string
   * @param activity string
      One of four activity types based on transactional requests made by supported applications.
