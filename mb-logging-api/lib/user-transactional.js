@@ -40,7 +40,7 @@ UserTransactional.prototype.post = function(req, res) {
   var addArgs = {};
 
   // Required
-  addArgs.email = this.request.query.email;
+  addArgs.email = this.request.query.email.toLowerCase();
   addArgs.activity = this.request.query.activity;
   addArgs.logged_date = new Date();
 
@@ -60,8 +60,8 @@ UserTransactional.prototype.post = function(req, res) {
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
     if (err) {
-      res.status(500).json(err);
       console.log("500 Error: POST to  /v1/user/transactional. err response: " + util.inspect(err, false, null));
+      res.status(500).json(err);
       return;
     }
 
@@ -84,11 +84,11 @@ UserTransactional.prototype.get = function(req, res) {
   this.request = req;
   this.response = res;
 
-  this.docModel.find( { 'email' : this.request.query.email },
+  this.docModel.find( { 'email' : this.request.query.email.toLowerCase() },
     function (err, docs) {
       if (err) {
-        res.status(500).json(err);
         console.log('500 Error: GET to /v1/imports/summaries');
+        res.status(500).json(err);
         return;
       }
 
@@ -112,6 +112,27 @@ UserTransactional.prototype.delete = function(req, res) {
 
   this.request = req;
   this.response = res;
+  var targetEmail = this.request.query.email.toLowerCase();
+
+  this.docModel.remove(
+    {email: targetEmail},
+    function (err, num) {
+      if (err) {
+        console.log('ERROR delete: ' + err);
+        res.status(500).json(err);
+        return;
+      }
+
+      if (num == 0) {
+        var message = 'No documents found to delete for email: ' + targetEmail;
+        res.status(404).json(message);
+      }
+      else {
+        var message = 'OK - Deleted ' + num + ' document(s) for email: ' + targetEmail;
+        res.status(200).json(message);
+      }
+    }
+  );
 
 };
 
