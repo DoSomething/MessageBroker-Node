@@ -94,7 +94,7 @@ UserTransactional.prototype.get = function(req, res) {
       }
 
       if (docs.length == 0) {
-        res.status(404).json('No match found for ' + targetEmail);
+        res.status(404).json('OK - No match found for ' + targetEmail);
       }
       else {
         res.status(200).json(docs);
@@ -129,7 +129,7 @@ UserTransactional.prototype.delete = function(req, res) {
       }
 
       if (num == 0) {
-        var message = 'No documents found to delete for email: ' + targetEmail;
+        var message = 'OK - No documents found to delete for email: ' + targetEmail;
         res.status(404).json(message);
       }
       else {
