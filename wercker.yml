@@ -34,4 +34,5 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
-          mb-logging-api/npm install
+          mb-logging-api/npm-install
+          mb-logging-api/npm-test
