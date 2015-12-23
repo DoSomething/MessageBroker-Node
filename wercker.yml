@@ -34,4 +34,4 @@ build:
         code: |
           echo "node version $(node -v) running"
           echo "npm version $(npm -v) running"
-          echo "Running wercker-steps $(wercker-steps.sh)"
+          echo "Running wercker-steps $(sh wercker-steps.sh)"
