@@ -140,6 +140,12 @@ module.exports = (function() {
       logged_date : { type: Date, default: Date.now },
       email : { type : String, trim : true },
       mobile : { type : String, trim : true },
+      source : {
+        type : String,
+        lowercase : 1,
+        trim : true,
+        enum: ['niche', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'us', 'ca', 'uk', 'gb', 'id', 'br', 'mx']
+      },
       activity : {
         type : String,
         lowercase : 1,
