@@ -53,6 +53,9 @@ UserTransactional.prototype.post = function(req, res) {
   if (this.request.body.mobile !== undefined) {
     addArgs.mobile = this.request.body.mobile;
   }
+  if (this.request.body.source !== undefined) {
+    addArgs.source = this.request.body.source;
+  }
   if (this.request.body.message !== undefined) {
     addArgs.activity_details = this.request.body.message;
   }
