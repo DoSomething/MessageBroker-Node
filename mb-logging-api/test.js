@@ -268,7 +268,7 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
  */
 describe('Requests to v1 imports (/api/v1/user/transactional) path', function() {
 
-  it('POST: Returns a 400 status code when required parameter "email" and "activity" are not defined.', function(done) {
+  it('POST: Returns a 400 status code when required parameter "email", "activity", "source" and "message" are not defined.', function(done) {
 
     request(app)
       .post('/api/v1/user/transactional')
@@ -280,6 +280,92 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
     request(app)
       .post('/api/v1/user/transactional')
       .expect("content-type", /json/, done);
+  });
+
+  it('POST: Addition of user activity "user_register" entry returns 400 response code and "ERROR, missing required value." message when required "email" value is missing.', function(done) {
+
+    urlParams = '?activity=user_registration';
+    request(app)
+      .post('/api/v1/user/transactional' + urlParams)
+      .send({
+        "source": "US",
+        "activity_timestamp": "1450143371",
+        "message": "a:13:{s:8:\"activity\";s:13:\"user_register\";s:5:\"email\";s:13:\"test@test.com\";s:3:\"uid\";s:7:\"3400745\";s:10:\"merge_vars\";a:2:{s:12:\"MEMBER_COUNT\";s:11:\"4.6 million\";s:5:\"FNAME\";s:4:\"Test\";}s:12:\"user_country\";s:2:\"US\";s:13:\"user_language\";s:2:\"en\";s:14:\"email_template\";s:19:\"mb-user-register-US\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:9:\"birthdate\";s:9:\"133574400\";s:10:\"subscribed\";i:1;s:10:\"email_tags\";a:1:{i:0;s:20:\"drupal_user_register\";}s:18:\"activity_timestamp\";i:1450143371;s:14:\"application_id\";s:2:\"US\";}"
+      })
+      .expect(400)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(400)
+        response.body.should.startWith('ERROR, missing required value.');
+        done();
+      });
+  });
+
+  it('POST: Addition of user activity "user_register" entry returns 400 response code and "ERROR, missing required value." message when required "acivity" value is missing.', function(done) {
+
+    urlParams = '?email=test%40test.com';
+    request(app)
+      .post('/api/v1/user/transactional' + urlParams)
+      .send({
+        "source": "US",
+        "activity_timestamp": "1450143371",
+        "message": "a:13:{s:8:\"activity\";s:13:\"user_register\";s:5:\"email\";s:13:\"test@test.com\";s:3:\"uid\";s:7:\"3400745\";s:10:\"merge_vars\";a:2:{s:12:\"MEMBER_COUNT\";s:11:\"4.6 million\";s:5:\"FNAME\";s:4:\"Test\";}s:12:\"user_country\";s:2:\"US\";s:13:\"user_language\";s:2:\"en\";s:14:\"email_template\";s:19:\"mb-user-register-US\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:9:\"birthdate\";s:9:\"133574400\";s:10:\"subscribed\";i:1;s:10:\"email_tags\";a:1:{i:0;s:20:\"drupal_user_register\";}s:18:\"activity_timestamp\";i:1450143371;s:14:\"application_id\";s:2:\"US\";}"
+      })
+      .expect(400)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(400)
+        response.body.should.startWith('ERROR, missing required value.');
+        done();
+      });
+  });
+
+  it('POST: Addition of user activity "user_register" entry returns 400 response code and "ERROR, missing required value." message when required "source" value is missing.', function(done) {
+
+    urlParams = '?email=test%40test.com&activity=user_registration';
+    request(app)
+      .post('/api/v1/user/transactional' + urlParams)
+      .send({
+        "activity_timestamp": "1450143371",
+        "message": "a:13:{s:8:\"activity\";s:13:\"user_register\";s:5:\"email\";s:13:\"test@test.com\";s:3:\"uid\";s:7:\"3400745\";s:10:\"merge_vars\";a:2:{s:12:\"MEMBER_COUNT\";s:11:\"4.6 million\";s:5:\"FNAME\";s:4:\"Test\";}s:12:\"user_country\";s:2:\"US\";s:13:\"user_language\";s:2:\"en\";s:14:\"email_template\";s:19:\"mb-user-register-US\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:9:\"birthdate\";s:9:\"133574400\";s:10:\"subscribed\";i:1;s:10:\"email_tags\";a:1:{i:0;s:20:\"drupal_user_register\";}s:18:\"activity_timestamp\";i:1450143371;s:14:\"application_id\";s:2:\"US\";}"
+      })
+      .expect(400)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(400)
+        response.body.should.startWith('ERROR, missing required value.');
+        done();
+      });
+  });
+
+  it('POST: Addition of user activity "user_register" entry returns 400 response code and "ERROR, missing required value." message when required "message" value is missing.', function(done) {
+
+    urlParams = '?email=test%40test.com&activity=user_registration';
+    request(app)
+      .post('/api/v1/user/transactional' + urlParams)
+      .send({
+        "source": "US",
+        "activity_timestamp": "1450143371"
+      })
+      .expect(400)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(400)
+        response.body.should.startWith('ERROR, missing required value.');
+        done();
+      });
   });
 
   it('POST: Addition of user activity "user_register" entry returns 201 response code and "OK" message.', function(done) {
