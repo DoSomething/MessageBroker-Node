@@ -40,6 +40,7 @@ An API to send logging data for persistant storage. Currently the persistant sto
   * POST:
     * mobile string Mobile number of the request. (optional)
     * source string The origin of the transactional request. (required)
+      ['niche', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'us', 'ca', 'uk', 'gb', 'id', 'br', 'mx']
     * activity_timestamp integer. (required)
     * message string The orginal seralized string that was sent to the Message Broker system. (required)
 * **GET /v1/user/transactional**
