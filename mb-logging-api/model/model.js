@@ -150,7 +150,7 @@ module.exports = (function() {
         type : String,
         lowercase : 1,
         trim : true,
-        enum: ['user_register', 'user_password', 'campaign_signup', 'campaign_reportback']
+        enum: ['user_register', 'user_password', 'campaign_signup', 'campaign_reportback', 'user_welcome-niche', 'user_password-niche']
       },
       activity_date : { type: Date, default: Date.now },
       activity_details : { type : String }
