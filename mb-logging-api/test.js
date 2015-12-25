@@ -328,7 +328,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
 
   it('POST: Addition of user activity "user_register" entry returns 400 response code and "ERROR, missing required value." message when required "source" value is missing.', function(done) {
 
-    urlParams = '?email=test%40test.com&activity=user_registration';
+    urlParams = '?email=test%40test.com&activity=user_register';
     request(app)
       .post('/api/v1/user/transactional' + urlParams)
       .send({
@@ -349,7 +349,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
 
   it('POST: Addition of user activity "user_register" entry returns 400 response code and "ERROR, missing required value." message when required "message" value is missing.', function(done) {
 
-    urlParams = '?email=test%40test.com&activity=user_registration';
+    urlParams = '?email=test%40test.com&activity=user_register';
     request(app)
       .post('/api/v1/user/transactional' + urlParams)
       .send({
@@ -370,7 +370,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
 
   it('POST: Addition of user activity "user_register" entry returns 201 response code and "OK" message.', function(done) {
 
-    urlParams = '?email=test%40test.com&activity=user_registration';
+    urlParams = '?email=test%40test.com&activity=user_register';
     request(app)
       .post('/api/v1/user/transactional' + urlParams)
       .send({
