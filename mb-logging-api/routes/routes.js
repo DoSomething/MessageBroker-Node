@@ -9,12 +9,12 @@ module.exports = (function() {
   var app = express();
 
   var router = express.Router();
-  var model = require('model/model');
+  var model = rootRequire('model/model');
 
-  var UserImport = require('lib/user-import');
-  var UserImportSummary = require('lib/user-import-summary');
-  var UserActivity = require('lib/user-activity');
-  var UserTransactional = require('lib/user-transactional');
+  var UserImport = rootRequire('lib/user-import');
+  var UserImportSummary = rootRequire('lib/user-import-summary');
+  var UserActivity = rootRequire('lib/user-activity');
+  var UserTransactional = rootRequire('lib/user-transactional');
 
   if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
