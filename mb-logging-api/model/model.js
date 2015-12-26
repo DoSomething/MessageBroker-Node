@@ -144,7 +144,7 @@ module.exports = (function() {
         type : String,
         lowercase : 1,
         trim : true,
-        enum: ['niche', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'mui', 'us', 'ca', 'uk', 'gb', 'id', 'bw', 'ke', 'ng', 'br', 'mx']
+        enum: ['niche', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'mui', 'us', 'ca', 'uk', 'gb', 'id', 'bw', 'ke', 'ng', 'gh', 'br', 'mx']
       },
       activity : {
         type : String,
