@@ -3,7 +3,7 @@ module.exports = (function() {
   var express = require('express');
   var app = express();
   var mongoose  = require('mongoose');
-  var mb_config = require('config/mb_config.json');
+  var mb_config = rootRequire('config/mb_config.json');
   
   if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
