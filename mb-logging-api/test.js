@@ -401,7 +401,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
         if (err) throw err;
         res.status.should.equal(200);
         res.body[0].email.should.equal("test@test.com");
-        res.body[0].activity.should.equal("user_registration");
+        res.body[0].activity.should.equal("user_register");
         res.body[0].activity_details.should.not.equal(null);
         res.body[0].should.have.property('activity_date');
         res.body[0].should.have.property('logged_date');
