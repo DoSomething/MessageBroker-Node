@@ -47,42 +47,94 @@ module.exports = (function() {
    * @param source string
    *   &source=niche : Unique name to identify the source of the import data.
    */
-  router.post('/v1/imports', function(req, res) {
-    if (req.query.type === undefined ||
-        req.query.exists === undefined ||
-        req.query.source === undefined ||
-        req.query.origin === undefined ||
-        req.query.processed_timestamp === undefined ||
-        (  req.body.email === undefined &&
-           req.body.phone === undefined &&
-           req.body.drupal_uid === undefined)
-      ) {
-      res.status(400).json('type, exists, source and origin or processed_timestamp not specified or no email, phone or drupal_uid specified.');
-    }
-    else {
-  
-      // Use model based on source
-      if (req.query.source.toLowerCase() === 'niche') {
-        var userImport = new UserImport(model.userImportModel_niche);
-        userImport.post(req, res);
-      }
-      else if (req.query.source.toLowerCase() === 'hercampus') {
-        var userImport = new UserImport(model.userImportModel_hercampus);
-        userImport.post(req, res);
-      }
-      else if (req.query.source.toLowerCase() === 'att-ichannel') {
-        var userImport = new UserImport(model.userImportModel_att_ichannel);
-        userImport.post(req, res);
-      }
-      else if (req.query.source.toLowerCase() === 'teenlife') {
-        var userImport = new UserImport(model.userImportModel_teenlife);
-        userImport.post(req, res);
+  router.route('/v1/imports')
+
+    .post(function(req, res) {
+      if (req.query.type === undefined ||
+          req.query.exists === undefined ||
+          req.query.source === undefined ||
+          req.query.origin === undefined ||
+          req.query.processed_timestamp === undefined ||
+          (  req.body.email === undefined &&
+             req.body.phone === undefined &&
+             req.body.drupal_uid === undefined)
+        ) {
+        res.status(400).json('ERROR, missing required value. POST /api/v1/import request. type, exists, source and origin or processed_timestamp not specified or no email, phone or drupal_uid specified.');
       }
       else {
-        console.log('POST /api/v1/imports request. Invalid source: ' + req.query.source);
+
+        // Use model based on source
+        if (req.query.source.toLowerCase() === 'niche') {
+          var userImport = new UserImport(model.userImportModel_niche);
+          userImport.post(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'hercampus') {
+          var userImport = new UserImport(model.userImportModel_hercampus);
+          userImport.post(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'att-ichannel') {
+          var userImport = new UserImport(model.userImportModel_att_ichannel);
+          userImport.post(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'teenlife') {
+          var userImport = new UserImport(model.userImportModel_teenlife);
+          userImport.post(req, res);
+        }
+        else {
+          console.log('POST /api/v1/imports request. Invalid source: ' + req.query.source);
+          res.status(400).json('ERROR, invalid required value. POST /api/v1/import request. source: ' + req.query.source.toLowerCase() + ' is not supported.');
+        }
       }
-    }
-  });
+    })
+
+    /**
+     * GET ?type=user_import&source=teenlife&origin=TeenLife-12-12-15.csv
+     */
+    .get(function(req, res) {
+      if (req.query.type === undefined ||
+          req.query.source === undefined ||
+          req.query.origin === undefined) {
+        res.status(400).json('source or origin not specified.');
+      }
+      else {
+        if (req.query.source.toLowerCase() === 'niche') {
+          var userImport = new UserImport(model.userImportModel_niche);
+          userImport.get(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'hercampus') {
+          var userImport = new UserImport(model.userImportModel_hercampus);
+          userImport.get(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'att-ichannel') {
+          var userImport = new UserImport(model.userImportModel_att_ichannel);
+          userImport.get(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'teenlife') {
+          var userImport = new UserImport(model.userImportModel_teenlife);
+          userImport.get(req, res);
+        }
+        else {
+          console.log('GET /api/v1/imports request. Invalid source: ' + req.query.source);
+          res.status(400).json('ERROR, invalid required value. GET /api/v1/import request. source: ' + req.query.source.toLowerCase() + ' is not supported.');
+        }
+      }
+    })
+
+    .delete(function(req, res) {
+
+    });
+
+    /**
+     * GET
+     * router.route('/v1/imports:start_processed_date')
+     * router.route('/v1/imports:start_processed_date/:end_processed_date')
+     *
+     * var start_processed_date = req.params.start_processed_date
+     *
+     * Parameterized Routes in Express.js
+     * https://www.safaribooksonline.com/blog/2014/03/13/
+     *   parameterized-routes-express-js/
+     */
   
   /**
    * POST to /api/v1/imports/summaries
