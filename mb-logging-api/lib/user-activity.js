@@ -51,11 +51,13 @@ UserActivity.prototype.post = function(req, res) {
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
     if (err) {
-      res.send(500, err);
+      console.log("500 Error: POST to  /v1/user/activity. err response: " + util.inspect(err, false, null));
+      res.status(500).json(err);
+      return;
     }
 
     // Added log entry to db
-    res.send(201, addArgs);
+    res.status(201).json("OK");
     console.log('Save executed on: ' + util.inspect(addArgs, false, null) + '.');
   });
 };
