@@ -60,7 +60,7 @@ describe('Requests to v1 root (/api/v1) path', function() {
 });
 
 /**
- *
+ * /api/v1/imports
  */
 describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
@@ -71,19 +71,39 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       .expect(400, done);
   });
 
-  it('POST: Returns JSON format with 400 response.', function(done) {
+  it('POST: Invalid submission returns JSON format with 400 response.', function(done) {
 
     request(app)
       .post('/api/v1/imports')
+      .expect(400)
       .expect("content-type", /json/, done);
   });
 
-  // @todo
-  /*
-  it('POST: Import log entry returns 200 response code and OK message.', function(done) {
+  it('POST: Valid import log entry returns 201 response code and OK message.', function(done) {
 
+    urlParams = '?type=user_import&exists=1&source=teenlife&origin=TeenLife-01-01-16.csv&processed_timestamp=1451606399';
+    request(app)
+      .post('/api/v1/imports'+ urlParams)
+      .send({
+        "email": "test1@test.com",
+        "email_status": "Test email...",
+        "email_acquired_timestamp": "1451606398",
+        "phone": "2345678901",
+        "phone_status": "Test phone...",
+        "drupal_uid": "123456789",
+        "drupal_email": "test1@test.com"
+      })
+      .expect(201)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(201)
+        response.body.should.equal("OK")
+        done();
+      });
   });
-  */
 
   // @todo
   /*
@@ -106,58 +126,10 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
   });
   */
 
-  it('POST: Addition of import log entry returns 201 response code and "OK" message.', function(done) {
-
-    urlParams = '?source=niche&exists=1&origin=Niche-12-12-15.csv&processed_timestamp=1000000000&type=user_import';
-    request(app)
-      .post('/api/v1/imports' + urlParams)
-      .send({
-        "logging_timestamp": "1410000000",
-        "phone": "1234567890",
-        "phone_status": "Still a phone number",
-        "email": "test@test.com",
-        "email_status": "We got this one too.",
-        "email_acquired_timestamp": "1400000000",
-        "drupal_uid": "12000000",
-        "drupal_email": "test@test.com"
-      })
-      .expect(201)
-      .expect("content-type", /json/)
-      .end(function(err, response) {
-        if (err) {
-          throw err;
-        }
-        response.status.should.equal(201)
-        response.body.should.equal("OK")
-        done();
-      });
-  });
-
-  // @todo
-  /*
-  it('GET: Lookup of import log entry returns 200 response code. Returned data is formatted as expected.', function(done) {
-
-  });
-  */
-
-  // @todo
-  /*
-  it('DELETE: Test import log entry returns 200 response code.', function(done) {
-
-  });
-  */
-
-  // @todo
-  /*
-  it('GET: Lookup of deleted import log entry returns 404 response code.', function(done) {
-
-  });
-  */
-
 });
 
 /**
- *
+ * /api/v1/imports/summaries
  */
 describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
@@ -168,19 +140,13 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
       .expect(400, done);
   });
 
-  it('POST: Returns JSON format with 400 response.', function(done) {
+  it('POST: Invlid POST returns JSON format with 400 response.', function(done) {
 
     request(app)
       .post('/api/v1/imports/summaries')
-      .expect('content-type', 'application/json', done);
+      .expect(400)
+      .expect("content-type", /json/, done);
   });
-
-  // @todo
-  /*
-  it('GET: Lookup of missing import summary log entries returns 404 response code.', function(done) {
-
-  });
-  */
 
   it('POST: Addition of import log summary entry returns 201 response code and "OK" message.', function(done) {
 
@@ -207,21 +173,21 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
   // @todo
   /*
-  it('GET: Lookup of summary import log entry returns 200 response code. Returned data is formatted as expected.', function(done) {
+  it('GET: Lookup import log summary entry returns 200 response code and expected content.', function(done) {
 
   });
   */
 
   // @todo
   /*
-  it('DELETE: Test summary log entry returns 200 response code.', function(done) {
+  it('DELETE: Import summary log entry returns 200 response code and expected OK response.', function(done) {
 
   });
   */
 
   // @todo
   /*
-  it('GET: Lookup of deleted import summary log entry returns 404 response code.', function(done) {
+  it('GET: Lookup of missing import summary log entry returns 404 response code.', function(done) {
 
   });
   */
@@ -229,7 +195,7 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 });
 
 /**
- * Test for POST and GET /api/v1/user/activity endpoints.
+ * /api/v1/user/activity
  */
 describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
@@ -240,31 +206,61 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
       .expect(400, done);
   });
 
-  it('POST: Returns JSON format', function(done) {
+  it('POST: Invalid POST returns JSON format', function(done) {
 
     request(app)
       .post('/api/v1/user/activity')
-      .expect('content-type', 'application/json', done);
-  });
-
-  it('GET: Returns a 400 status code when required parameter "type" and "source" are not defined.', function(done) {
-
-    request(app)
-      .get('/api/v1/user/activity')
-      .expect(400, done);
-  });
-
-  it('GET: Returns JSON format', function(done) {
-
-    request(app)
-      .get('/api/v1/user/activity')
       .expect("content-type", /json/, done);
   });
+
+  it('POST: Addition of user activity log entry returns 201 response code and "OK" message.', function(done) {
+
+    urlParams = '?type=vote';
+    request(app)
+      .post('/api/v1/user/activity' + urlParams)
+      .send({
+        "email": "",
+        "source": "CGG",
+        "activity_details": "a:6:{s:5:\"email\";s:20:\"dlee@dosomething.org\";s:6:\"source\";s:3:\"AGG\";s:8:\"activity\";s:4:\"vote\";s:13:\"activity_date\";s:25:\"2015-06-10T21:10:17-04:00\";s:18:\"activity_timestamp\";i:1433985017;s:16:\"activity_details\";a:15:{s:19:\"birthdate_timestamp\";i:656812800;s:12:\"country_code\";s:2:\"CA\";s:12:\"candidate_id\";s:1:\"6\";s:14:\"candidate_name\";s:11:\"Brown Ebert\";s:8:\"activity\";s:4:\"vote\";s:14:\"application_id\";s:3:\"AGG\";s:18:\"activity_timestamp\";i:1433450227;s:5:\"email\";s:20:\"dlee@dosomething.org\";s:10:\"subscribed\";i:1;s:21:\"mailchimp_grouping_id\";s:5:\"55555\";s:20:\"mailchimp_group_name\";s:7:\"AGG2015\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:14:\"email_template\";s:49:\"agg2015-voting-confirmation-global-non-affiliates\";s:10:\"email_tags\";a:2:{i:0;s:3:\"agg\";i:1;s:1:\"6\";}s:10:\"merge_vars\";a:3:{s:5:\"FNAME\";s:5:\"David\";s:14:\"CANDIDATE_NAME\";s:11:\"Brown Ebert\";s:14:\"CANDIDATE_LINK\";s:50:\"http://www.catsgonegood.com/candidates/brown-ebert\";}}}",
+        "activity_date": "Wed Jun 24 2015 08:30:08 GMT-0400 (EDT)"
+      })
+      .expect(201)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(201)
+        response.body.should.equal("OK")
+        done();
+      });
+  });
+
+  // @todo
+  /*
+  it('GET: Lookup user activity log entry returns 200 response code and expected content.', function(done) {
+
+  });
+  */
+
+  // @todo
+  /*
+  it('DELETE: User activity log entry returns 200 response code and expected OK response.', function(done) {
+
+  });
+  */
+
+  // @todo
+  /*
+  it('GET: Lookup of missing user activity log entry returns 404 response code.', function(done) {
+
+  });
+  */
 
 });
 
 /**
- * Test GET, POST and DELETE /api/v1/user/transactional endpoints.
+ * /api/v1/user/transactional
  */
 describe('Requests to v1 imports (/api/v1/user/transactional) path', function() {
 
