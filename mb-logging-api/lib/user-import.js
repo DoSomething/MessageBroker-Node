@@ -25,6 +25,24 @@ var convertToDate = function(timestamp) {
 /**
  * Create a log document from the supplied values
  *
+ * Required
+ * - req.query.type: [user_import] (unimplimented)
+ * - req.query.exists: [1] (unimplimented)
+ * - req.query.source: ['niche', 'niche.com', 'hercampus', 'att-ichannel', 'teenlife']
+ * - req.query.origin: Origin file name, example: TeenLife-06-15-15.csv.
+ * - req.query.processed_timestamp
+ *
+ * Optional (must have one of)
+ * - req.body.email
+ * - req.body.phone
+ * - req.body.drupal_uid
+ *
+ * Supporting values when one of the optional values are submitted
+ * - req.body.email_status
+ * - req.body.email_acquired_timestamp
+ * - req.body.phone_status
+ * - req.body.drupal_email
+ *
  * @param req
  *  The request object in a POST callback.
  * @param res
@@ -38,12 +56,10 @@ UserImport.prototype.post = function(req, res) {
   // Include parameter values in post
   addArgs.source = this.request.query.source;
 
-  if (this.request.body.origin !== undefined) {
-    var processedDate = convertToDate(parseInt(this.request.body.origin['processed_timestamp']));
-    addArgs.origin = {
-      "processed" : processedDate,
-      "name" : this.request.body.origin['name'],
-    }
+  var processedDate = convertToDate(parseInt(this.request.query.origin['processed_timestamp']));
+  addArgs.origin = {
+    "processed" : processedDate,
+    "name" : this.request.query.origin['name'],
   }
 
   if (this.request.body.phone !== undefined) {
