@@ -105,26 +105,75 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       });
   });
 
-  // @todo
-  /*
-  it('GET: Lookup import log entry returns 200 response code and expected content.', function(done) {
+  it('GET: Lookup import log entries returns 200 response code and expected content.', function(done) {
 
+    urlParams = 'type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    request(app)
+      .get('/api/v1/imports' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, res) {
+        if (err) throw err;
+        res.status.should.equal(200);
+        res.body[0].source.should.equal("teenlife");
+        res.body[0].email.address.should.equal("test1@test.com");
+        res.body[0].email.status.should.equal("Test email...");
+        res.body[0].phone.number.should.equal("2345678901");
+        res.body[0].phone.status.should.equal("Test phone...");
+        res.body[0].drupal.uid.should.equal("123456789");
+        res.body[0].drupal.email.should.equal("test1@test.com");
+        res.body[0].should.have.property('origin.processed');
+        res.body[0].origin.name.should.equal("TeenLife-01-01-16.csv");
+        res.body[0].should.have.property('logged_date');
+        res.body[0].logged_date.should.not.equal(null);
+        done();
+      });
   });
-  */
 
-  // @todo
-  /*
   it('DELETE: Import log entry returns 200 response code and expected OK response.', function(done) {
 
+    urlParams = 'type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    request(app)
+      .delete('/api/v1/imports' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(200);
+        response.body.should.startWith('OK - Deleted');
+        done();
+      });
   });
-  */
 
-  // @todo
-  /*
-  it('GET: Lookup of missing import log entry returns 404 response code.', function(done) {
+  it('DELETE: Attempted deletion of missing user import log entries returns 204 response code and JSON "OK".', function(done) {
 
+    urlParams = 'type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    request(app)
+      .delete('/api/v1/imports' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
+        done();
+      });
   });
-  */
+
+  it('GET: Lookup of missing import log entries returns 404 response code.', function(done) {
+
+    urlParams = '?email=test%40test.com';
+    request(app)
+      .get('/api/v1/imports' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No match found');
+        done();
+      });
+  });
 
 });
 
