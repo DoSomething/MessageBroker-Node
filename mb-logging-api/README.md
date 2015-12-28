@@ -9,7 +9,7 @@ An API to send logging data for persistant storage. Currently the persistant sto
 
 * **GET /api** - report basic details about the API
 * **GET /api/v1**
-* **POST /api/v1/imports?type=[user]&exists=[1]&source=[ niche | niche.com | hercampus | att-ichannel | teenlife ]**
+* **POST /api/v1/imports?type=[user_import]&exists=[1]&source=[ niche | niche.com | hercampus | att-ichannel | teenlife ]**
   * @param type string
     ex. &type=user : The type of import, helps to define what collection the
      POST is added to.
@@ -18,6 +18,8 @@ An API to send logging data for persistant storage. Currently the persistant sto
     Commons users in the userImportModel.
   * @param source string
     &source=niche : Unique name to identify the source of the import data.
+* **GET /api/v1/imports?type=[user_import]&source=[ niche | niche.com | hercampus | att-ichannel | teenlife ]&origin=[ origin file name]**
+* **DELETE /api/v1/imports?type=[user_import]&source=[ niche | niche.com | hercampus | att-ichannel | teenlife ]&origin=[ origin file name]**
 * **POST /api/v1/imports/summaries?type=[user]&source=[ niche | niche.com | hercampus | att-ichannel | teenlife ]**
   * @param type string
      ex. &type=user : The type of import.
