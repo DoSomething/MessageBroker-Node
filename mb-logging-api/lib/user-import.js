@@ -56,10 +56,10 @@ UserImport.prototype.post = function(req, res) {
   // Include parameter values in post
   addArgs.source = this.request.query.source;
 
-  var processedDate = convertToDate(parseInt(this.request.query.origin['processed_timestamp']));
+  var processedDate = convertToDate(parseInt(this.request.query.processed_timestamp));
   addArgs.origin = {
     "processed" : processedDate,
-    "name" : this.request.query.origin['name'],
+    "name" : this.request.query.origin,
   }
 
   if (this.request.body.phone !== undefined) {
@@ -110,13 +110,13 @@ UserImport.prototype.post = function(req, res) {
  */
 UserImport.prototype.get = function(req, res) {
 
-  if (req.param("start_date") == 0) {
+  if (req.param("start_date") === undefined) {
     var targetStartDate = new Date('2014-08-01');
   }
   else {
     var targetStartDate = new Date(req.param("start_date"));
   }
-  if (req.param("end_date") == 0) {
+  if (req.param("end_date") === undefined) {
     var targetEndDate = new Date();
   }
   else {
@@ -130,7 +130,8 @@ UserImport.prototype.get = function(req, res) {
   this.docModel.find( {
     $and : [
       { 'logged_date' : {$gte : targetStartDate, $lte : targetEndDate} },
-      { 'source' : req.query.source }
+      { 'source' : req.query.source },
+      { 'origin.name' : req.query.origin }
     ]},
     function (err, docs) {
       if (err) {
@@ -140,7 +141,7 @@ UserImport.prototype.get = function(req, res) {
 
       // Send results
       console.log('Summary query returned.');
-      data.response.send(201, docs);
+      data.response.send(200, docs);
   })
 };
 
