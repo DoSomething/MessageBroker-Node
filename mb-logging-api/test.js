@@ -139,7 +139,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('DELETE: Import log entry returns 200 response code and expected OK response.', function(done) {
 
-    urlParams = 'type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
     request(app)
       .delete('/api/v1/imports' + urlParams)
       .expect(200)
@@ -152,9 +152,9 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       });
   });
 
-  it('DELETE: Attempted deletion of missing user import log entries returns 204 response code and JSON "OK".', function(done) {
+  it('DELETE: Attempted deletion of missing user import log entries returns 404 response code and JSON "OK".', function(done) {
 
-    urlParams = 'type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
     request(app)
       .delete('/api/v1/imports' + urlParams)
       .expect(404)
@@ -169,7 +169,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup of missing import log entries returns 404 response code.', function(done) {
 
-    urlParams = '?email=test%40test.com';
+    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(404)
