@@ -94,7 +94,7 @@ module.exports = (function() {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
           req.query.origin === undefined) {
-        res.status(400).json('source or origin not specified.');
+        res.status(400).json('type, source and origin not specified.');
       }
       else {
         if (req.query.source.toLowerCase() === 'niche') {
@@ -121,6 +121,34 @@ module.exports = (function() {
     })
 
     .delete(function(req, res) {
+
+      if (req.query.type === undefined ||
+          req.query.source === undefined ||
+          req.query.origin === undefined) {
+        res.status(400).json('type, source and origin not specified.');
+      }
+      else {
+        if (req.query.source.toLowerCase() === 'niche') {
+          var userImport = new UserImport(model.userImportModel_niche);
+          userImport.delete(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'hercampus') {
+          var userImport = new UserImport(model.userImportModel_hercampus);
+          userImport.delete(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'att-ichannel') {
+          var userImport = new UserImport(model.userImportModel_att_ichannel);
+          userImport.delete(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'teenlife') {
+          var userImport = new UserImport(model.userImportModel_teenlife);
+          userImport.delete(req, res);
+        }
+        else {
+          console.log('DELETE /api/v1/imports request. Invalid source: ' + req.query.source);
+          res.status(400).json('ERROR, invalid required value. DELETE /api/v1/import request. source: ' + req.query.source.toLowerCase() + ' is not supported.');
+        }
+      }
 
     });
 
