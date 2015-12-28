@@ -76,15 +76,22 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
     request(app)
       .post('/api/v1/imports')
       .expect(400)
-      .expect("content-type", /json/, done);
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(400);
+        response.body.should.startWith('ERROR, missing required value. POST /api/v1/import request.');
+        done();
+      });
   });
 
   it('POST: Valid import log entry returns 201 response code and OK message.', function(done) {
 
-    urlParams = '?type=user_import&exists=1&source=teenlife&origin=TeenLife-01-01-16.csv&processed_timestamp=1451606399';
+    urlParams = '?type=user_import&source=teenlife&exists=1&origin=TeenLife-01-01-16.csv&processed_timestamp=1451606399';
     request(app)
       .post('/api/v1/imports'+ urlParams)
       .send({
+        "logging_timestamp": "1451606400",
         "email": "test1@test.com",
         "email_status": "Test email...",
         "email_acquired_timestamp": "1451606398",
@@ -107,7 +114,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup import log entries returns 200 response code and expected content.', function(done) {
 
-    urlParams = 'type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(200)
@@ -120,9 +127,9 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         res.body[0].email.status.should.equal("Test email...");
         res.body[0].phone.number.should.equal("2345678901");
         res.body[0].phone.status.should.equal("Test phone...");
-        res.body[0].drupal.uid.should.equal("123456789");
+        res.body[0].drupal.uid.should.equal(123456789);
         res.body[0].drupal.email.should.equal("test1@test.com");
-        res.body[0].should.have.property('origin.processed');
+        res.body[0].origin.should.have.property('processed');
         res.body[0].origin.name.should.equal("TeenLife-01-01-16.csv");
         res.body[0].should.have.property('logged_date');
         res.body[0].logged_date.should.not.equal(null);
