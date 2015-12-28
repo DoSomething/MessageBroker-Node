@@ -139,9 +139,12 @@ UserImport.prototype.get = function(req, res) {
         return;
       }
 
-      // Send results
-      console.log('Summary query returned.');
-      data.response.send(200, docs);
+      if (docs.length == 0) {
+        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin ' + req.query.origin + ' logged_date: gte: ' + targetStartDate + ' lte ' + targetEndDate);
+      }
+      else {
+        res.status(200).json(docs);
+      }
   })
 };
 
