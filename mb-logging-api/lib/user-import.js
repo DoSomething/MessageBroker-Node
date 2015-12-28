@@ -25,6 +25,24 @@ var convertToDate = function(timestamp) {
 /**
  * Create a log document from the supplied values
  *
+ * Required
+ * - req.query.type: [user_import] (unimplimented)
+ * - req.query.exists: [1] (unimplimented)
+ * - req.query.source: ['niche', 'niche.com', 'hercampus', 'att-ichannel', 'teenlife']
+ * - req.query.origin: Origin file name, example: TeenLife-06-15-15.csv.
+ * - req.query.processed_timestamp
+ *
+ * Optional (must have one of)
+ * - req.body.email
+ * - req.body.phone
+ * - req.body.drupal_uid
+ *
+ * Supporting values when one of the optional values are submitted
+ * - req.body.email_status
+ * - req.body.email_acquired_timestamp
+ * - req.body.phone_status
+ * - req.body.drupal_email
+ *
  * @param req
  *  The request object in a POST callback.
  * @param res
@@ -38,12 +56,10 @@ UserImport.prototype.post = function(req, res) {
   // Include parameter values in post
   addArgs.source = this.request.query.source;
 
-  if (this.request.body.origin !== undefined) {
-    var processedDate = convertToDate(parseInt(this.request.body.origin['processed_timestamp']));
-    addArgs.origin = {
-      "processed" : processedDate,
-      "name" : this.request.body.origin['name'],
-    }
+  var processedDate = convertToDate(parseInt(this.request.query.processed_timestamp));
+  addArgs.origin = {
+    "processed" : processedDate,
+    "name" : this.request.query.origin,
   }
 
   if (this.request.body.phone !== undefined) {
@@ -94,13 +110,13 @@ UserImport.prototype.post = function(req, res) {
  */
 UserImport.prototype.get = function(req, res) {
 
-  if (req.param("start_date") == 0) {
+  if (req.param("start_date") === undefined) {
     var targetStartDate = new Date('2014-08-01');
   }
   else {
     var targetStartDate = new Date(req.param("start_date"));
   }
-  if (req.param("end_date") == 0) {
+  if (req.param("end_date") === undefined) {
     var targetEndDate = new Date();
   }
   else {
@@ -114,7 +130,8 @@ UserImport.prototype.get = function(req, res) {
   this.docModel.find( {
     $and : [
       { 'logged_date' : {$gte : targetStartDate, $lte : targetEndDate} },
-      { 'source' : req.query.source }
+      { 'source' : req.query.source },
+      { 'origin.name' : req.query.origin }
     ]},
     function (err, docs) {
       if (err) {
@@ -122,10 +139,48 @@ UserImport.prototype.get = function(req, res) {
         return;
       }
 
-      // Send results
-      console.log('Summary query returned.');
-      data.response.send(201, docs);
+      if (docs.length == 0) {
+        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin ' + req.query.origin + ' logged_date: gte: ' + targetStartDate + ' lte ' + targetEndDate);
+      }
+      else {
+        res.status(200).json(docs);
+      }
   })
+};
+
+/**
+ * Delete existing user log documents.
+ *
+ * @param req
+ *   The request object in the DELETE callback.
+ * @param res
+ *   The response object in the DELETE callback.
+ */
+UserImport.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
+  var targetOrigin = this.request.query.origin;
+
+  this.docModel.remove(
+    {'origin.name': targetOrigin},
+    function (err, num) {
+      if (err) {
+        console.log('ERROR delete: ' + err);
+        res.status(500).json(err);
+        return;
+      }
+
+      if (num == 0) {
+        var message = 'OK - No documents found to delete for origin: ' + targetOrigin;
+        res.status(404).json(message);
+      }
+      else {
+        var message = 'OK - Deleted ' + num + ' document(s) for origin: ' + targetOrigin;
+        res.status(200).json(message);
+      }
+    }
+  );
 };
 
 module.exports = UserImport;
