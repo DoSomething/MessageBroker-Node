@@ -145,4 +145,39 @@ UserImport.prototype.get = function(req, res) {
   })
 };
 
+/**
+ * Delete existing user log documents.
+ *
+ * @param req
+ *   The request object in the DELETE callback.
+ * @param res
+ *   The response object in the DELETE callback.
+ */
+UserImport.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
+  var targetOrigin = this.request.query.origin;
+
+  this.docModel.remove(
+    {'origin.name': targetOrigin},
+    function (err, num) {
+      if (err) {
+        console.log('ERROR delete: ' + err);
+        res.status(500).json(err);
+        return;
+      }
+
+      if (num == 0) {
+        var message = 'OK - No documents found to delete for origin: ' + targetOrigin;
+        res.status(404).json(message);
+      }
+      else {
+        var message = 'OK - Deleted ' + num + ' document(s) for origin: ' + targetOrigin;
+        res.status(200).json(message);
+      }
+    }
+  );
+};
+
 module.exports = UserImport;
