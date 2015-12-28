@@ -35,7 +35,6 @@ describe('Requests to the root (/api) path', function() {
       .get('/api')
       .expect("content-type", /json/, done)
   });
-
 });
 
 /**
@@ -56,7 +55,6 @@ describe('Requests to v1 root (/api/v1) path', function() {
       .get('/api/v1')
       .expect("content-type", /json/, done)
   });
-
 });
 
 /**
@@ -181,7 +179,6 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         done();
       });
   });
-
 });
 
 /**
@@ -227,27 +224,21 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
       });
   });
 
-  // @todo
-  /*
   it('GET: Lookup import log summary entry returns 200 response code and expected content.', function(done) {
 
   });
-  */
 
-  // @todo
-  /*
   it('DELETE: Import summary log entry returns 200 response code and expected OK response.', function(done) {
 
   });
-  */
 
-  // @todo
-  /*
+  it('DELETE: Attempted deletion of missing summary log entry returns 404 response code and JSON "OK".', function(done) {
+
+  });
+
   it('GET: Lookup of missing import summary log entry returns 404 response code.', function(done) {
 
   });
-  */
-
 });
 
 /**
@@ -312,7 +303,6 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
   });
   */
-
 });
 
 /**
@@ -507,5 +497,4 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
         done();
       });
   });
-
 });
