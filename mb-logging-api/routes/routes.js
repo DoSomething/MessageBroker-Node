@@ -153,6 +153,8 @@ module.exports = (function() {
     });
 
     /**
+     * @todo:
+     *
      * GET
      * router.route('/v1/imports:start_processed_date')
      * router.route('/v1/imports:start_processed_date/:end_processed_date')
@@ -173,20 +175,52 @@ module.exports = (function() {
    * @param source string
    *   &source=niche.com : Unique name to identify the source of the import data.
    */
-  router.post('/v1/imports/summaries', function(req, res) {
-    if (req.query.type === undefined ||
+  router.route('/v1/imports/summaries')
+
+    .post(function(req, res) {
+      if (req.query.type === undefined ||
         req.query.source === undefined ||
         req.body.target_CSV_file === undefined ||
         req.body.signup_count === undefined ||
         req.body.skipped === undefined) {
-      res.status(400).json('POST /api/v1/imports/summaries request. Type or source not specified or no target CSV file, signup count and skipped values specified.');
+        res.status(400).json('ERROR, missing required value. POST /api/v1/imports/summaries request. Type or source not specified or no target CSV file, signup count and skipped values specified.');
+      }
+      else {
+        var userImportSummary = new UserImportSummary(model.importSummaryModel);
+        userImportSummary.post(req, res);
+      }
+    })
+
+    /**
+     * GET ?type=user_import&source=teenlife&origin=TeenLife-12-12-15.csv
+     */
+    .get(function(req, res) {
+      if (req.query.type === undefined ||
+          req.query.source === undefined) {
+        res.status(400).json('type or source not specified.');
+      }
+      else {
+        var userImportSummary = new UserImportSummary(model.importSummaryModel);
+        userImportSummary.get(req, res);
+      }
+
+    })
+
+    .delete(function(req, res) {
+
+      if (req.query.type === undefined ||
+          req.query.source === undefined ||
+          req.query.origin === undefined) {
+        res.status(400).json('type, source and origin not specified.');
+      }
+      else {
+        var userImportSummary = new UserImportSummary(model.importSummaryModel);
+        userImportSummary.delete(req, res);
+      }
+
     }
-    else {
-      var userImportSummary = new UserImportSummary(model.importSummaryModel);
-      userImportSummary.post(req, res);
-    }
-  });
-  
+  );
+
   /**
    * POST to /v1/user/activity
    *   Required parameter:
