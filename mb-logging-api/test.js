@@ -203,7 +203,7 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
   it('POST: Addition of import log summary entry returns 201 response code and "OK" message.', function(done) {
 
-    urlParams = '?source=niche&type=user_import';
+    urlParams = '?source=teenlife&type=user_import';
     request(app)
       .post('/api/v1/imports/summaries' + urlParams)
       .send({
@@ -226,6 +226,22 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
   it('GET: Lookup import log summary entry returns 200 response code and expected content.', function(done) {
 
+    urlParams = '?type=user_import&source=teenlife';
+    request(app)
+      .get('/api/v1/imports/summaries' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, res) {
+        if (err) throw err;
+        res.status.should.equal(200);
+        res.body[0].should.have.property('logged_date');
+        res.body[0].target_CSV_file.should.equal("2015-13-00.csv");
+        res.body[0].signup_count.should.equal(69);
+        res.body[0].skipped.should.equal(1);
+        res.body[0].source.should.equal("teenlife");
+        res.body[0].log_type.should.equal("user_import");
+        done();
+      });
   });
 
   it('DELETE: Import summary log entry returns 200 response code and expected OK response.', function(done) {
