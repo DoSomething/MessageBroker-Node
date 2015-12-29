@@ -69,7 +69,6 @@ UserImportSummary.prototype.post = function(req, res) {
     }
     // Added log entry to db
     res.status(201).json("OK");
-
   });
 };
 
@@ -84,17 +83,17 @@ UserImportSummary.prototype.post = function(req, res) {
  */
 UserImportSummary.prototype.get = function(req, res) {
 
-  if (req.param("start_date") == 0) {
+  if (req.params.start_processed_date === undefined) {
     var targetStartDate = new Date('2014-08-01');
   }
   else {
-    var targetStartDate = new Date(req.param("start_date"));
+    var targetStartDate = new Date(req.params.start_processed_date);
   }
-  if (req.param("end_date") == 0) {
+  if (req.params.end_processed_date === undefined) {
     var targetEndDate = new Date();
   }
   else {
-    var targetEndDate = new Date(req.param("end_date"));
+    var targetEndDate = new Date(req.params.start_processed_date);
   }
 
   var data = {
@@ -108,13 +107,16 @@ UserImportSummary.prototype.get = function(req, res) {
     ]},
     function (err, docs) {
       if (err) {
-        data.response.status(500).json(err);
-        console.log('500 Error: GET to /v1/imports/summaries');
+        data.response.send(500, err);
         return;
       }
 
-      // Send results
-      data.response.status(200).json(docs);
+      if (docs.length == 0) {
+        res.status(404).json('OK - No match found for source ' + req.query.source + ' logged_date: gte: ' + targetStartDate + ' lte ' + targetEndDate);
+      }
+      else {
+        res.status(200).json(docs);
+      }
 
   }).sort({ target_CSV_file : -1 })
 };
