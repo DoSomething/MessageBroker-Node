@@ -246,13 +246,49 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
   it('DELETE: Import summary log entry returns 200 response code and expected OK response.', function(done) {
 
+    urlParams = '?type=user_import&source=teenlife&origin=2015-13-00.csv';
+    request(app)
+      .delete('/api/v1/imports/summaries' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(200);
+        response.body.should.startWith('OK - Deleted');
+        done();
+      });
+
   });
 
   it('DELETE: Attempted deletion of missing summary log entry returns 404 response code and JSON "OK".', function(done) {
 
+    urlParams = '?type=user_import&source=teenlife&origin=2015-13-00.csv';
+    request(app)
+      .delete('/api/v1/imports/summaries' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
+        done();
+      });
+
   });
 
   it('GET: Lookup of missing import summary log entry returns 404 response code.', function(done) {
+
+    urlParams = '?type=user_import&source=teenlife';
+    request(app)
+      .get('/api/v1/imports/summaries' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No match found');
+        done();
+      });
 
   });
 });
