@@ -35,7 +35,6 @@ describe('Requests to the root (/api) path', function() {
       .get('/api')
       .expect("content-type", /json/, done)
   });
-
 });
 
 /**
@@ -56,7 +55,6 @@ describe('Requests to v1 root (/api/v1) path', function() {
       .get('/api/v1')
       .expect("content-type", /json/, done)
   });
-
 });
 
 /**
@@ -181,7 +179,6 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         done();
       });
   });
-
 });
 
 /**
@@ -206,7 +203,7 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
 
   it('POST: Addition of import log summary entry returns 201 response code and "OK" message.', function(done) {
 
-    urlParams = '?source=niche&type=user_import';
+    urlParams = '?source=teenlife&type=user_import';
     request(app)
       .post('/api/v1/imports/summaries' + urlParams)
       .send({
@@ -227,27 +224,73 @@ describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
       });
   });
 
-  // @todo
-  /*
   it('GET: Lookup import log summary entry returns 200 response code and expected content.', function(done) {
 
+    urlParams = '?type=user_import&source=teenlife';
+    request(app)
+      .get('/api/v1/imports/summaries' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, res) {
+        if (err) throw err;
+        res.status.should.equal(200);
+        res.body[0].should.have.property('logged_date');
+        res.body[0].target_CSV_file.should.equal("2015-13-00.csv");
+        res.body[0].signup_count.should.equal(69);
+        res.body[0].skipped.should.equal(1);
+        res.body[0].source.should.equal("teenlife");
+        res.body[0].log_type.should.equal("user_import");
+        done();
+      });
   });
-  */
 
-  // @todo
-  /*
   it('DELETE: Import summary log entry returns 200 response code and expected OK response.', function(done) {
 
-  });
-  */
+    urlParams = '?type=user_import&source=teenlife&origin=2015-13-00.csv';
+    request(app)
+      .delete('/api/v1/imports/summaries' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(200);
+        response.body.should.startWith('OK - Deleted');
+        done();
+      });
 
-  // @todo
-  /*
+  });
+
+  it('DELETE: Attempted deletion of missing summary log entry returns 404 response code and JSON "OK".', function(done) {
+
+    urlParams = '?type=user_import&source=teenlife&origin=2015-13-00.csv';
+    request(app)
+      .delete('/api/v1/imports/summaries' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
+        done();
+      });
+
+  });
+
   it('GET: Lookup of missing import summary log entry returns 404 response code.', function(done) {
 
-  });
-  */
+    urlParams = '?type=user_import&source=teenlife';
+    request(app)
+      .get('/api/v1/imports/summaries' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No match found');
+        done();
+      });
 
+  });
 });
 
 /**
@@ -312,7 +355,6 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
   });
   */
-
 });
 
 /**
@@ -507,5 +549,4 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
         done();
       });
   });
-
 });
