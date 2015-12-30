@@ -121,4 +121,46 @@ UserImportSummary.prototype.get = function(req, res) {
   }).sort({ target_CSV_file : -1 })
 };
 
+/**
+ * Delete existing user import summary log documents.
+ *
+ * @param req
+ *   The request object in the DELETE callback.
+ * @param res
+ *   The response object in the DELETE callback.
+ */
+UserImportSummary.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
+  var deleteArgs = {};
+  var targetSource = this.request.query.source;
+  deleteArgs.source = targetSource;
+
+  if (this.request.query.origin !== undefined) {
+    var targetOrigin = this.request.query.origin;
+    deleteArgs.target_CSV_file = targetOrigin;
+  }
+
+  this.docModel.remove(deleteArgs,
+    function(err, num) {
+
+      if (err) {
+        console.log('ERROR delete: ' + err);
+        res.status(500).json(err);
+        return;
+      }
+
+      if (num == 0) {
+        var message = 'OK - No documents found to delete for target_CSV_file: ' + targetOrigin;
+        res.status(404).json(message);
+      }
+      else {
+        var message = 'OK - Deleted ' + num + ' document(s) for origin: ' + targetOrigin;
+        res.status(200).json(message);
+      }
+    }
+  );
+};
+
 module.exports = UserImportSummary;
