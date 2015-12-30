@@ -335,26 +335,17 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
       });
   });
 
-  // @todo
-  /*
   it('GET: Lookup user activity log entry returns 200 response code and expected content.', function(done) {
 
   });
-  */
 
-  // @todo
-  /*
   it('DELETE: User activity log entry returns 200 response code and expected OK response.', function(done) {
 
   });
-  */
 
-  // @todo
-  /*
   it('GET: Lookup of missing user activity log entry returns 404 response code.', function(done) {
 
   });
-  */
 });
 
 /**
