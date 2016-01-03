@@ -43,9 +43,14 @@ UserActivity.prototype.post = function(req, res) {
   addArgs.source = this.request.body.source.toUpperCase();
 
   addArgs.activity = this.request.query.type;
-  addArgs.activity_date = this.request.body.activity_date;
   addArgs.activity_details = this.request.body.activity_details;
 
+  if (this.request.body.activity_date !== undefined) {
+    addArgs.activity_date = this.request.body.activity_date;
+  }
+  else {
+    addArgs.activity_date = new Date();
+  }
   addArgs.logged_date = new Date();
 
   var logEntry = new this.docModel(addArgs);
@@ -58,7 +63,6 @@ UserActivity.prototype.post = function(req, res) {
 
     // Added log entry to db
     res.status(201).json("OK");
-    console.log('Save executed on: ' + util.inspect(addArgs, false, null) + '.');
   });
 };
 
