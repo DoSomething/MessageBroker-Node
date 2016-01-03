@@ -127,4 +127,46 @@ UserActivity.prototype.get = function(req, res) {
   })
 };
 
+/**
+ * Delete user activity log documents.
+ *
+ * @param req
+ *   The request object in the DELETE callback.
+ * @param res
+ *   The response object in the DELETE callback.
+ */
+UserActivity.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
+  var targetEmail = this.request.query.email.toLowerCase();
+  var targetSource = this.request.query.source;
+  var targetActivity = this.request.query.type;
+
+  this.docModel.remove(
+    {
+      'email': targetEmail,
+      'source': targetSource,
+      'activity': targetActivity,
+    },
+    function(err, num) {
+
+      if (err) {
+        console.log('ERROR delete: ' + err);
+        res.status(500).json(err);
+        return;
+      }
+
+      if (num == 0) {
+        var message = 'OK - No documents found to delete for email: ' + targetEmail + ', source: ' + targetSource + ' and activity: ' + targetActivity ;
+        res.status(404).json(message);
+      }
+      else {
+        var message = 'OK - Deleted ' + num + ' document(s) for email: ' + targetEmail + ', source: ' + targetSource + ' and activity: ' + targetActivity;
+        res.status(200).json(message);
+      }
+    }
+  );
+};
+
 module.exports = UserActivity;
