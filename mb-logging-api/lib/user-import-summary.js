@@ -133,12 +133,13 @@ UserImportSummary.prototype.delete = function(req, res) {
 
   this.request = req;
   this.response = res;
+  var targetOrigin = this.request.query.origin;
   var deleteArgs = {};
 
   deleteArgs.source = this.request.query.source;
 
-  if (this.request.query.origin !== undefined) {
-    deleteArgs.target_CSV_file = this.request.query.origin;
+  if (targetOrigin !== undefined) {
+    deleteArgs.target_CSV_file = targetOrigin;
   }
 
   this.docModel.remove(deleteArgs,
