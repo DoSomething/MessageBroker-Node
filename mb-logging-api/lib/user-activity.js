@@ -88,15 +88,15 @@ UserActivity.prototype.get = function(req, res) {
   getArgs.activity = type;
   getArgs.source = source;
 
-  if (this.request.body.startDate) {
-    var targetStartDate = new Date(this.request.body.startDate);
+  if (this.request.query.startDate) {
+    var targetStartDate = new Date(this.request.query.startDate);
   }
   else {
     // Default to first log entry: 2015-06-23
     var targetStartDate = new Date("2015-06-23");
   }
-  if (this.request.body.endDate) {
-    var targetEndDate = new Date(endDate);
+  if (this.request.query.endDate) {
+    var targetEndDate = new Date(this.request.query.endDate);
   }
   else {
     var targetEndDate = new Date();
