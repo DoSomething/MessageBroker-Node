@@ -68,7 +68,7 @@ UserActivity.prototype.post = function(req, res) {
 
 /**
  * Retrieve existing user activity log documents. Example request GET:
- * /api/v1/user/activity?type=vote&&source=AGG&offset=300&interval=300
+ * /api/v1/user/activity?type=vote&email=test2@test.com&source=AGG
  *
  * @param req
  *   The request object in the GET callback.
@@ -77,35 +77,41 @@ UserActivity.prototype.post = function(req, res) {
  */
 UserActivity.prototype.get = function(req, res) {
 
-  // NOTE: Typically offset and interval would be the same value.
-  if (req.param("offset") === undefined) {
-    // Default to current date if not set
-    var targetStartDate = new Date();
+  this.request = req;
+  this.response = res;
+  var getArgs = {};
+
+  // Required
+  getArgs.type = this.request.query.type;
+  getArgs.source = this.request.query.source;
+
+  if (this.request.body.startDate) {
+    var targetStartDate = new Date(this.request.body.startDate);
   }
   else {
-    var targetStartDate = new Date();
-    targetStartDate.setSeconds(targetStartDate.getSeconds() - req.param("offset"));
+    // Default to start of previous month
+    var date = new Date();
+    var targetStartDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
   }
-  if (req.param("interval") === undefined) {
-    var targetEndDate = new Date(targetStartDate);
-    // Default to one week if not set
-    targetEndDate.setSeconds(targetEndDate.getSeconds() - 604800);
+  if (this.request.body.endDate) {
+    var targetEndDate = new Date(endDate);
   }
   else {
-    var targetEndDate = new Date(targetStartDate);
-    targetEndDate.setSeconds(targetEndDate.getSeconds() - req.param("interval"));
+    // Default to end of previous month
+    var date = new Date();
+    var targetEndDate = new Date(date.getFullYear(), date.getMonth(), 1);
+  }
+  getArgs.activity_date = {
+    $gte : targetStartDate,
+    $lt : targetEndDate
+  };
+
+  // Optional
+  if (this.request.query.email !== undefined) {
+    getArgs.email = this.request.query.email.toLowerCase();
   }
 
-  var data = {
-    request: req,
-    response: res
-  };
-  this.docModel.find( {
-    $and : [
-      { 'activity_date' : {$gte : targetEndDate, $lte : targetStartDate} },
-      { 'source' : req.param("source") },
-      { 'activity' : req.param("type") }
-    ]},
+  this.docModel.find(getArgs,
     function (err, docs) {
       if (err) {
         data.response.send(500, err);
