@@ -34,6 +34,7 @@ var convertToDate = function(timestamp) {
  *  The response object in a POST callback.
  */
 UserActivity.prototype.post = function(req, res) {
+
   this.request = req;
   this.response = res;
   var addArgs = {};
@@ -45,8 +46,8 @@ UserActivity.prototype.post = function(req, res) {
   addArgs.activity = this.request.query.type;
   addArgs.activity_details = this.request.body.activity_details;
 
-  if (this.request.body.activity_date !== undefined) {
-    addArgs.activity_date = this.request.body.activity_date;
+  if (this.request.body.activity_timestamp !== undefined) {
+    addArgs.activity_date = new Date(this.request.body.activity_timestamp * 1000);
   }
   else {
     addArgs.activity_date = new Date();
@@ -79,27 +80,26 @@ UserActivity.prototype.get = function(req, res) {
 
   this.request = req;
   this.response = res;
+  var type = this.request.query.type;
+  var source = this.request.query.source;
   var getArgs = {};
 
   // Required
-  getArgs.type = this.request.query.type;
-  getArgs.source = this.request.query.source;
+  getArgs.activity = type;
+  getArgs.source = source;
 
   if (this.request.body.startDate) {
     var targetStartDate = new Date(this.request.body.startDate);
   }
   else {
-    // Default to start of previous month
-    var date = new Date();
-    var targetStartDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
+    // Default to first log entry: 2015-06-23
+    var targetStartDate = new Date("2015-06-23");
   }
   if (this.request.body.endDate) {
     var targetEndDate = new Date(endDate);
   }
   else {
-    // Default to end of previous month
-    var date = new Date();
-    var targetEndDate = new Date(date.getFullYear(), date.getMonth(), 1);
+    var targetEndDate = new Date();
   }
   getArgs.activity_date = {
     $gte : targetStartDate,
@@ -119,7 +119,7 @@ UserActivity.prototype.get = function(req, res) {
       }
 
       if (docs.length == 0) {
-        res.status(404).json('OK - No match found for ' + targetEmail);
+        res.status(404).json('OK - No match found for type: ' + type + ', source: ' + source);
       }
       else {
         res.status(200).json(docs);
