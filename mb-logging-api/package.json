@@ -1,6 +1,6 @@
 {
   "name": "mb-logging-api",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Logging API for Message Broker use.",
   "homepage" : "https://github.com/DoSomething/mb-logging-api",
   "author": "Darren Lee <dlee@dosomething.org>",
