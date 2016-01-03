@@ -267,10 +267,9 @@ module.exports = (function() {
     })
   
     .get(function(req, res) {
-      if (req.query.email === undefined &&
-          req.query.type === undefined &&
+      if (req.query.type === undefined &&
           req.query.source === undefined) {
-        res.status(400).json('GET /api/v1/user/activity request: email, type or source not defined. ');
+        res.status(400).json('GET /api/v1/user/activity request: type or source not defined. ');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
