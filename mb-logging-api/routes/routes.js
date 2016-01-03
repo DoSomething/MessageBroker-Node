@@ -241,12 +241,24 @@ module.exports = (function() {
    *
    *     If none of the optional parameters are applied the request will return
    *     all of the existing log entries.
+   *
+   * DELETE to /v1/user/activity
+   *   Required parameter:
+   *     - email
+   *     - type: The type of activity log.
+   *     - source: What application produced the log entry.
    */
   router.route('/v1/user/activity')
   
     .post(function(req, res) {
       if (req.query.type != 'vote') {
         res.status(400).json('POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
+      }
+      else if (req.body.email === undefined ||
+               req.body.source === undefined ||
+               req.body.activity_details === undefined
+      ) {
+        res.status(400).json('POST /api/v1/user/activity request. email, source  or activity_details undefined.');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
@@ -255,15 +267,28 @@ module.exports = (function() {
     })
   
     .get(function(req, res) {
-      if (req.query.type === undefined && req.query.source === undefined) {
-        res.status(400).json('GET /api/v1/user/activity request, type and/or source not defined. ');
+      if (req.query.type === undefined &&
+          req.query.source === undefined) {
+        res.status(400).json('GET /api/v1/user/activity request: type or source not defined. ');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
         userActivity.get(req, res);
       }
+    })
+
+    .delete(function(req, res) {
+      if (req.query.email === undefined ||
+          req.query.type === undefined ||
+          req.query.source === undefined) {
+        res.status(400).json('DELETE /api/v1/user/activity request: email, type or source not defined.');
+      }
+      else {
+        var userActivity = new UserActivity(model.userActivityModel);
+        userActivity.delete(req, res);
+      }
     });
-    
+
   /**
    * POST to /v1/user/transactional
    *   Required parameters:

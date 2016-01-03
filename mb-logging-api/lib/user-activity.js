@@ -34,6 +34,7 @@ var convertToDate = function(timestamp) {
  *  The response object in a POST callback.
  */
 UserActivity.prototype.post = function(req, res) {
+
   this.request = req;
   this.response = res;
   var addArgs = {};
@@ -43,9 +44,14 @@ UserActivity.prototype.post = function(req, res) {
   addArgs.source = this.request.body.source.toUpperCase();
 
   addArgs.activity = this.request.query.type;
-  addArgs.activity_date = this.request.body.activity_date;
   addArgs.activity_details = this.request.body.activity_details;
 
+  if (this.request.body.activity_timestamp !== undefined) {
+    addArgs.activity_date = new Date(this.request.body.activity_timestamp * 1000);
+  }
+  else {
+    addArgs.activity_date = new Date();
+  }
   addArgs.logged_date = new Date();
 
   var logEntry = new this.docModel(addArgs);
@@ -58,13 +64,12 @@ UserActivity.prototype.post = function(req, res) {
 
     // Added log entry to db
     res.status(201).json("OK");
-    console.log('Save executed on: ' + util.inspect(addArgs, false, null) + '.');
   });
 };
 
 /**
  * Retrieve existing user activity log documents. Example request GET:
- * /api/v1/user/activity?type=vote&&source=AGG&offset=300&interval=300
+ * /api/v1/user/activity?type=vote&email=test2@test.com&source=AGG
  *
  * @param req
  *   The request object in the GET callback.
@@ -73,45 +78,95 @@ UserActivity.prototype.post = function(req, res) {
  */
 UserActivity.prototype.get = function(req, res) {
 
-  // NOTE: Typically offset and interval would be the same value.
-  if (req.param("offset") === undefined) {
-    // Default to current date if not set
-    var targetStartDate = new Date();
+  this.request = req;
+  this.response = res;
+  var type = this.request.query.type;
+  var source = this.request.query.source;
+  var getArgs = {};
+
+  // Required
+  getArgs.activity = type;
+  getArgs.source = source;
+
+  if (this.request.query.startDate) {
+    var targetStartDate = new Date(this.request.query.startDate);
   }
   else {
-    var targetStartDate = new Date();
-    targetStartDate.setSeconds(targetStartDate.getSeconds() - req.param("offset"));
+    // Default to first log entry: 2015-06-23
+    var targetStartDate = new Date("2015-06-23");
   }
-  if (req.param("interval") === undefined) {
-    var targetEndDate = new Date(targetStartDate);
-    // Default to one week if not set
-    targetEndDate.setSeconds(targetEndDate.getSeconds() - 604800);
+  if (this.request.query.endDate) {
+    var targetEndDate = new Date(this.request.query.endDate);
   }
   else {
-    var targetEndDate = new Date(targetStartDate);
-    targetEndDate.setSeconds(targetEndDate.getSeconds() - req.param("interval"));
+    var targetEndDate = new Date();
+  }
+  getArgs.activity_date = {
+    $gte : targetStartDate,
+    $lt : targetEndDate
+  };
+
+  // Optional
+  if (this.request.query.email !== undefined) {
+    getArgs.email = this.request.query.email.toLowerCase();
   }
 
-  var data = {
-    request: req,
-    response: res
-  };
-  this.docModel.find( {
-    $and : [
-      { 'activity_date' : {$gte : targetEndDate, $lte : targetStartDate} },
-      { 'source' : req.param("source") },
-      { 'activity' : req.param("type") }
-    ]},
+  this.docModel.find(getArgs,
     function (err, docs) {
       if (err) {
         data.response.send(500, err);
         return;
       }
 
-      // Send results
-      console.log('Logged votes returned for source: ' + req.param("source") + ' and activity: ' + req.param("type") + '.');
-      data.response.send(201, docs);
+      if (docs.length == 0) {
+        res.status(404).json('OK - No match found for type: ' + type + ', source: ' + source);
+      }
+      else {
+        res.status(200).json(docs);
+      }
   })
+};
+
+/**
+ * Delete user activity log documents.
+ *
+ * @param req
+ *   The request object in the DELETE callback.
+ * @param res
+ *   The response object in the DELETE callback.
+ */
+UserActivity.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
+  var targetEmail = this.request.query.email.toLowerCase();
+  var targetSource = this.request.query.source;
+  var targetActivity = this.request.query.type;
+
+  this.docModel.remove(
+    {
+      'email': targetEmail,
+      'source': targetSource,
+      'activity': targetActivity,
+    },
+    function(err, num) {
+
+      if (err) {
+        console.log('ERROR delete: ' + err);
+        res.status(500).json(err);
+        return;
+      }
+
+      if (num == 0) {
+        var message = 'OK - No documents found to delete for email: ' + targetEmail + ', source: ' + targetSource + ' and activity: ' + targetActivity ;
+        res.status(404).json(message);
+      }
+      else {
+        var message = 'OK - Deleted ' + num + ' document(s) for email: ' + targetEmail + ', source: ' + targetSource + ' and activity: ' + targetActivity;
+        res.status(200).json(message);
+      }
+    }
+  );
 };
 
 module.exports = UserActivity;
