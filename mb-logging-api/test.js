@@ -318,9 +318,9 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
     request(app)
       .post('/api/v1/user/activity' + urlParams)
       .send({
-        "email": "",
+        "email": "test@test2.org",
         "source": "CGG",
-        "activity_details": "a:6:{s:5:\"email\";s:20:\"dlee@dosomething.org\";s:6:\"source\";s:3:\"AGG\";s:8:\"activity\";s:4:\"vote\";s:13:\"activity_date\";s:25:\"2015-06-10T21:10:17-04:00\";s:18:\"activity_timestamp\";i:1433985017;s:16:\"activity_details\";a:15:{s:19:\"birthdate_timestamp\";i:656812800;s:12:\"country_code\";s:2:\"CA\";s:12:\"candidate_id\";s:1:\"6\";s:14:\"candidate_name\";s:11:\"Brown Ebert\";s:8:\"activity\";s:4:\"vote\";s:14:\"application_id\";s:3:\"AGG\";s:18:\"activity_timestamp\";i:1433450227;s:5:\"email\";s:20:\"dlee@dosomething.org\";s:10:\"subscribed\";i:1;s:21:\"mailchimp_grouping_id\";s:5:\"55555\";s:20:\"mailchimp_group_name\";s:7:\"AGG2015\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:14:\"email_template\";s:49:\"agg2015-voting-confirmation-global-non-affiliates\";s:10:\"email_tags\";a:2:{i:0;s:3:\"agg\";i:1;s:1:\"6\";}s:10:\"merge_vars\";a:3:{s:5:\"FNAME\";s:5:\"David\";s:14:\"CANDIDATE_NAME\";s:11:\"Brown Ebert\";s:14:\"CANDIDATE_LINK\";s:50:\"http://www.catsgonegood.com/candidates/brown-ebert\";}}}",
+        "activity_details": "a:6:{s:5:\"email\";s:14:\"test@test2.org\";s:6:\"source\";s:3:\"AGG\";s:8:\"activity\";s:4:\"vote\";s:13:\"activity_date\";s:25:\"2015-06-10T21:10:17-04:00\";s:18:\"activity_timestamp\";i:1433985017;s:16:\"activity_details\";a:15:{s:19:\"birthdate_timestamp\";i:656812800;s:12:\"country_code\";s:2:\"CA\";s:12:\"candidate_id\";s:1:\"6\";s:14:\"candidate_name\";s:11:\"Brown Ebert\";s:8:\"activity\";s:4:\"vote\";s:14:\"application_id\";s:3:\"AGG\";s:18:\"activity_timestamp\";i:1433450227;s:5:\"email\";s:20:\"dlee@dosomething.org\";s:10:\"subscribed\";i:1;s:21:\"mailchimp_grouping_id\";s:5:\"55555\";s:20:\"mailchimp_group_name\";s:7:\"AGG2015\";s:17:\"mailchimp_list_id\";s:10:\"f2fab1dfd4\";s:14:\"email_template\";s:49:\"agg2015-voting-confirmation-global-non-affiliates\";s:10:\"email_tags\";a:2:{i:0;s:3:\"agg\";i:1;s:1:\"6\";}s:10:\"merge_vars\";a:3:{s:5:\"FNAME\";s:5:\"David\";s:14:\"CANDIDATE_NAME\";s:11:\"Brown Ebert\";s:14:\"CANDIDATE_LINK\";s:50:\"http://www.catsgonegood.com/candidates/brown-ebert\";}}}",
         "activity_date": "Wed Jun 24 2015 08:30:08 GMT-0400 (EDT)"
       })
       .expect(201)
@@ -337,14 +337,66 @@ describe('Requests to v1 imports (/api/v1/user/activity) path', function() {
 
   it('GET: Lookup user activity log entry returns 200 response code and expected content.', function(done) {
 
+    urlParams = '?email=test2%40test.com&type=vote&source=CGG';
+    request(app)
+      .get('/api/v1/user/activity' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, res) {
+        if (err) throw err;
+        res.status.should.equal(200);
+        res.body[0].email.should.equal("test2@test.com");
+        res.body[0].activity.should.equal("vote");
+        res.body[0].activity_details.should.not.equal(null);
+        res.body[0].should.have.property('activity_date');
+        res.body[0].should.have.property('logged_date');
+        done();
+      });
   });
 
   it('DELETE: User activity log entry returns 200 response code and expected OK response.', function(done) {
 
+    urlParams = '?email=test2%40test.com&type=vote&source=CGG';
+    request(app)
+      .delete('/api/v1/user/activity' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
+        done();
+      });
+  });
+
+    it('DELETE: Attempted deletion of missing test activity for user "test@test.com" activity returns 404 response code and JSON "OK".', function(done) {
+
+    urlParams = '?email=test2%40test.com&type=vote&source=CGG';
+    request(app)
+      .delete('/api/v1/user/activity' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
+        done();
+      });
   });
 
   it('GET: Lookup of missing user activity log entry returns 404 response code.', function(done) {
 
+    urlParams = '?email=test2%40test.com&type=vote&source=CGG';
+    request(app)
+      .get('/api/v1/user/activity' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No match found');
+        done();
+      });
   });
 });
 
@@ -510,7 +562,7 @@ describe('Requests to v1 imports (/api/v1/user/transactional) path', function() 
 
   });
 
-  it('DELETE: Attempted deletion of missing test user "test@test.com" activity log entry returns 204 response code and JSON "OK".', function(done) {
+  it('DELETE: Attempted deletion of missing test user "test@test.com" activity log entry returns 404 response code and JSON "OK".', function(done) {
 
     urlParams = '?email=test%40test.com';
     request(app)
