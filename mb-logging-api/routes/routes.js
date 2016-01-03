@@ -241,6 +241,12 @@ module.exports = (function() {
    *
    *     If none of the optional parameters are applied the request will return
    *     all of the existing log entries.
+   *
+   * DELETE to /v1/user/activity
+   *   Required parameter:
+   *     - email
+   *     - type: The type of activity log.
+   *     - source: What application produced the log entry.
    */
   router.route('/v1/user/activity')
   
@@ -262,8 +268,20 @@ module.exports = (function() {
         var userActivity = new UserActivity(model.userActivityModel);
         userActivity.get(req, res);
       }
+    })
+
+    .delete(function(req, res) {
+      if (req.query.email === undefined ||
+          req.query.type === undefined ||
+          req.query.source === undefined) {
+        res.status(400).json('DELETE /api/v1/user/activity request: email, type or source not defined.');
+      }
+      else {
+        var userActivity = new UserActivity(model.userActivityModel);
+        userActivity.delete(req, res);
+      }
     });
-    
+
   /**
    * POST to /v1/user/transactional
    *   Required parameters:
