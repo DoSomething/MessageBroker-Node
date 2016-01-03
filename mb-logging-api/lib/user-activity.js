@@ -108,9 +108,12 @@ UserActivity.prototype.get = function(req, res) {
         return;
       }
 
-      // Send results
-      console.log('Logged votes returned for source: ' + req.param("source") + ' and activity: ' + req.param("type") + '.');
-      data.response.send(201, docs);
+      if (docs.length == 0) {
+        res.status(404).json('OK - No match found for ' + targetEmail);
+      }
+      else {
+        res.status(200).json(docs);
+      }
   })
 };
 
