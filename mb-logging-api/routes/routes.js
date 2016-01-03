@@ -254,6 +254,12 @@ module.exports = (function() {
       if (req.query.type != 'vote') {
         res.status(400).json('POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
       }
+      else if (req.body.email === undefined ||
+               req.body.source === undefined ||
+               req.body.activity_details === undefined
+      ) {
+        res.status(400).json('POST /api/v1/user/activity request. email, source  or activity_details undefined.');
+      }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
         userActivity.post(req, res);
@@ -261,8 +267,10 @@ module.exports = (function() {
     })
   
     .get(function(req, res) {
-      if (req.query.type === undefined && req.query.source === undefined) {
-        res.status(400).json('GET /api/v1/user/activity request, type and/or source not defined. ');
+      if (req.query.email === undefined &&
+          req.query.type === undefined &&
+          req.query.source === undefined) {
+        res.status(400).json('GET /api/v1/user/activity request: email, type or source not defined. ');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
