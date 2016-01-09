@@ -124,13 +124,13 @@ $ export NODE_ENV=<production | development>
 
 ##### Command Line
 ```
-$ NODE_ENV=<production | development> ./bin/mb-logging-api-server
+$ NODE_ENV=<production | test | development> ./bin/mb-logging-api-server
 $ curl -i http://localhost:4733/api
 ```
 
 ##### Start as Daemon
 ```
-$ NODE_ENV=<production | development> forever start ./bin/mb-logging-api-server
+$ NODE_ENV=<production | test | development> forever start ./bin/mb-logging-api-server
 ```
 
 ##### Tests
