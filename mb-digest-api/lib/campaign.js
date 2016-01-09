@@ -36,8 +36,7 @@ Campaign.prototype.post = function(req, res) {
   client.exists(key, function(err, reply) {
     if (reply === 1) {
         console.log(key + ' already exists');
-        // @todo: convert to .status(304).json()
-        res.send(304, reply);
+        res.status(304).json('ERROR: Key already exists: ' + key + ' Redis replay: ' + reply);
     } else {
 
       // Set the value for the key
@@ -80,11 +79,10 @@ Campaign.prototype.get = function(req, res) {
       var results = {
         key : reply
       };
-      console.log('Key: ' + key + ' found: ' + reply);
       res.status(200).json(results);
     }
     else {
-      res.status(404).json('Key: ' + key + ' not found.'); ;
+      res.status(404).json('Key not found: ' + key );
     }
 
   });
