@@ -2,7 +2,8 @@
  * mb-loggingapi-server.js
  *
  * An application to provide endpoints for http (API) access to the mb-logging
- * database. Details of the endpoints can be found in the README.md file.
+ * database (Mongo). Details of the endpoints can be found in the README.md
+ * file.
  */
 
 /**

@@ -11,10 +11,9 @@ module.exports = (function() {
   var app = express();
 
   var router = express.Router();
-  console.log("Loading model/model");
-  var model = require('model/model');
+  var model = rootRequire('model/model');
 
-  var Campaign = require('lib/campaign');
+  var Campaign = rootRequire('lib/campaign');
 
   if (app.get('env') == 'development') {
     // To output objects for debugging
@@ -30,10 +29,10 @@ module.exports = (function() {
    * - http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
    */
   router.get('/', function(req, res) {
-    res.send(200, 'Message Broker Digest API (mb-digest-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-digest-api for the related git repository.');
+    res.status(200).json('Message Broker Digest API (mb-digest-api). Available versions: v1 (/api/v1) See https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-digest-api for the related git repository.');
   });
   router.get('/v1', function(req, res) {
-    res.send(200, 'Message Broker Digest API (mb-digest-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki) for documentation');
+    res.status(200).json('Message Broker Digest API (mb-digest-api). Version 1.x.x, see wiki (https://github.com/DoSomething/MessageBroker-Node/wiki) for documentation');
   });
   
   /**
@@ -52,7 +51,7 @@ module.exports = (function() {
   
     .post(function(req, res) {
       if (req.body.nid === undefined || req.body.language === undefined || req.body.object === undefined) {
-        res.send(400, 'POST /api/v1/campaign nid, language or object not defined. ');
+        res.status(400).json('POST /api/v1/campaign nid, language or object not defined. ');
       }
       else {
         var campaign = new Campaign(model);
@@ -62,11 +61,21 @@ module.exports = (function() {
   
     .get(function(req, res) {
       if (req.query.key === undefined) {
-        res.send(400, 'GET /api/v1/campaign key not defined. ');
+        res.status(400).json('GET /api/v1/campaign key not defined. ');
       }
       else {
         var campaign = new Campaign(model);
         campaign.get(req, res);
+      }
+    })
+
+    .delete(function(req, res) {
+      if (req.query.key === undefined) {
+        res.status(400).json('DELETE /api/v1/campaign key not defined. ');
+      }
+      else {
+        var campaign = new Campaign(model);
+        campaign.delete(req, res);
       }
     });
     
