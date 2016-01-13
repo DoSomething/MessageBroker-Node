@@ -1,6 +1,8 @@
 /**
  * Application routes module. Routes define which objects to instantiate as
  * a result.
+ *
+ * Mounted on "/api" with: app.use('/api', routes);
  */
 
 module.exports = (function() {
@@ -94,7 +96,7 @@ module.exports = (function() {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
           req.query.origin === undefined) {
-        res.status(400).json('type, source and origin not specified.');
+        res.status(400).json('ERROR, type, source and origin not specified.');
       }
       else {
         if (req.query.source.toLowerCase() === 'niche') {
@@ -316,7 +318,7 @@ module.exports = (function() {
           req.query.activity === undefined ||
           req.body.source === undefined ||
           req.body.message === undefined) {
-        res.status(400).json('ERROR, missing required value. POST /api/v1/user/transactional request. email, activity, source or message not specified.');
+        res.status(400).json('POST /api/v1/user/transactional request. email, activity, source or message not specified.');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);

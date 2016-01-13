@@ -13,10 +13,10 @@
   "main": "mb-logging-api-server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DoSomething/mb-logging-api"
+    "url": "https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-logging-api"
   },
   "bugs": {
-    "url": "https://github.com/DoSomething/mb-logging-api/issues"
+    "url": "https://github.com/DoSomething/MessageBroker-Node/tree/master/mb-logging-api/issues"
   },
   "engines" : {
     "node" : ">=0.12.5"

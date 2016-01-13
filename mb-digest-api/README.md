@@ -18,11 +18,36 @@ An API to manage key/value data related to the cncurrent functionality with the 
 
 
 ##### Configuration
-`/config/mb_config.json` needs to exist to define configuration settings for application. Settings should define "development" and "production" settings. Toggle the application use of the settings using the `NODE_ENV` setting.
+`/config/mb_config.json` needs to exist to define configuration settings for application. Settings should define "development", "test" and "production" settings. Toggle the application use of the settings using the `NODE_ENV` setting.
+
+A `./config/mb_config.json` file must have a structure of and contain values for:
+```
+{
+  "default":
+    {
+      "port": "4744"
+    }
+  ,
+  "redis":
+    {
+      "development": {
+        "host": "localhost",
+        "port": "6379"
+      },
+      "test": {
+        "host": "127.0.0.1",
+        "port": "16379"
+      },
+      "production": {
+        "host": "message-broker.2vgx1m.0001.use1.cache.amazonaws.com",
+        "port": "6379"
+      }
+    }
+}
 
 ##### Environment
 ```
-$ export NODE_ENV=<production | development>
+$ export NODE_ENV=<production | test | development>
 ```
 - **`production`**:
   - Use production Redis connection settings defined in config/mb_config.json.
@@ -32,7 +57,7 @@ $ export NODE_ENV=<production | development>
 
 ##### Start as Deamon
 ```
-$ NODE_ENV=<production | development> forever start mb-digest-api-server.js
+$ NODE_ENV=<production | test | development> forever start mb-digest-api-server.js
 ```
 
 ##### Redis

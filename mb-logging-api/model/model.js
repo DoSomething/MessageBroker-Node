@@ -29,7 +29,7 @@ module.exports = (function() {
   }
   mongoose.connect(mongoUri);
   mongoose.connection.on('error', function(err) {
-    console.log('Unable to connect to the Mongo database (%s). Check to make sure the database is running.', mongoUri);
+    console.log('Unable to connect to the Mongo database (%s). Check to make sure the server is running.', mongoUri);
     process.exit();
   });
   

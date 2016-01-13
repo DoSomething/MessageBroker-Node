@@ -1,28 +1,44 @@
+/**
+ * mb-digest-api-server.js
+ *
+ * An application to provide endpoints for http (API) access to the mb-digest
+ * database (Redis). Details of the endpoints can be found in the README.md file.
+ */
+
+/**
+ * Utility to provide reference to the root of the application. Used by files
+ * in subdirectories to reference other files within the application directory
+ * structure.
+ *
+ * Reference: https://gist.github.com/branneman/8048520#7-the-wrapper
+ */
+global.rootRequire = function(name) {
+  return require(__dirname + '/' + name);
+}
+
+/**
+ * Modules used by the application. Installed in node_modules via "npm install"
+ * as defined in package.json.
+ */
 var express           = require('express');
 var redis             = require('redis');
 var bodyParser        = require('body-parser');
 var FileStreamRotator = require('file-stream-rotator');
 var fs                = require('fs');
 var morgan            = require('morgan');
- 
+
+// Define routes and related modules to call when requests are made to
+// the route.
 var routes = require('./routes/routes');
-var mb_config = require(__dirname + '/config/mb_config.json');
-var logDirectory = __dirname + '/logs';
 
-// @todo - remove if use of mb_config.json makes more sense
-var PORT       = process.env.PORT       || 4744        ;
-var REDIS_HOST = process.env.REDIS_HOST || '127.0.0.1' ;
-var REDIS_PORT = process.env.REDIS_PORT || 6379        ;
-
-/**
- * Express Setup
- */
+// Express Setup
 var app = express();
 
+// LOGGING
+// =============================================================================
 // ensure log directory exists
+var logDirectory = __dirname + '/logs';
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
-
-// var accessLogStream = fs.createWriteStream(__dirname + '/access.log',{flags: 'a'});
 
 // create a rotating write stream
 var accessLogStream = FileStreamRotator.getStream({
@@ -36,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Toggle tools and logging based on enviroment setting
-if (app.get('env') == 'development') {
+if (app.get('env') == 'development' || app.get('env') == 'test') {
   // To output objects for debugging
   // console.log("/ request: " + util.inspect(request, false, null));
   var util = require('util');
@@ -54,10 +70,10 @@ else if (app.get('env') == 'production') {
 // All of routes will be prefixed with /api
 app.use('/api', routes);
 
-/**
- * Start server.
- */
-var port = process.env.MB_DIGEST_API_PORT || mb_config.default.port;
-app.listen(port, function() {
-  console.log('Message Broker Logging API server listening on port %d in %s mode.', port, app.settings.env);
-});
+// APP AS MODULE
+// =============================================================================
+// Assign to module to allow testing vs binding to a port - via
+// $ npm tests
+// vs
+// $ bin/mb-logging-api-server.
+module.exports = app;
