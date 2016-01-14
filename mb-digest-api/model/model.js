@@ -32,7 +32,7 @@ module.exports = (function() {
     console.log('- Redis connected!');
   });
   client.on('error', function() {
-      console.log('Unable to connect to the Redis database (%s). Check to make sure the server is running.', mongoUri);
+      console.log('Unable to connect to the Redis database (%s:%s). Check to make sure the server is running.', redisUri, redisPort);
     process.exit();
   });
 
