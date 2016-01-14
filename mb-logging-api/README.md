@@ -88,6 +88,7 @@ An API to send logging data for persistant storage. Currently the persistant sto
 ```
 $ npm install
 ```
+NOTE: npm shrinkwrap : https://docs.npmjs.com/cli/shrinkwrap locks down the versions of a package's dependencies.
 
 `shrinkwrap` is used to lock install module versions to gurentee functional releases. Deleting the `npm-shrinkwrap.json` file before installing with npm will result in the latest versions of packages being installed but the application may not work as expected.
 
@@ -137,7 +138,6 @@ $ NODE_ENV=<production | test | development> forever start ./bin/mb-logging-api-
 - to run the unit (supertest / mocha) tests:
 ```
 $ npm test
-```
 
   Requests to the root (/api) path
     ✓ GET: Returns a 200 status code
@@ -189,3 +189,4 @@ $ npm test
 
 
   36 passing (242ms)
+  ```
