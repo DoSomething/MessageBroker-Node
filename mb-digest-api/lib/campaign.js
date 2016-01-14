@@ -102,7 +102,6 @@ Campaign.prototype.delete = function(req, res) {
   var targetKey = this.request.query.key;
 
   client.del(targetKey, function(err, reply) {
-    console.log('reply: ' + reply);
     if (reply) {
       res.status(200).json('OK - Key deleted: ' + targetKey );
     }
