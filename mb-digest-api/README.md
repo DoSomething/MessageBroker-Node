@@ -16,6 +16,11 @@ An API to manage key/value data related to the cncurrent functionality with the 
     * language string: The language code used by the Druapl application for the translated versions of campaign.
     * object string: Seralized campaign object that includes markup property.
 
+##### Installation
+```
+$ npm install
+```
+NOTE: npm shrinkwrap : https://docs.npmjs.com/cli/shrinkwrap locks down the versions of a package's dependencies.
 
 ##### Configuration
 `/config/mb_config.json` needs to exist to define configuration settings for application. Settings should define "development", "test" and "production" settings. Toggle the application use of the settings using the `NODE_ENV` setting.
