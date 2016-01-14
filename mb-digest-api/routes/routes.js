@@ -51,7 +51,7 @@ module.exports = (function() {
   
     .post(function(req, res) {
       if (req.body.nid === undefined || req.body.language === undefined || req.body.object === undefined) {
-        res.status(400).json('POST /api/v1/campaign nid, language or object not defined. ');
+        res.status(400).json('ERROR, missing required value. POST /api/v1/campaign request. nid, language or object not defined.');
       }
       else {
         var campaign = new Campaign(model);

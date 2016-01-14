@@ -36,16 +36,12 @@ Campaign.prototype.post = function(req, res) {
   client.exists(key, function(err, reply) {
     if (reply === 1) {
         console.log(key + ' already exists');
-        res.status(304).json('ERROR: Key already exists: ' + key + ' Redis replay: ' + reply);
+        res.status(200).json("OK - Key already exists: " + key);
     } else {
 
       // Set the value for the key
       client.set(key, markup, function(err, reply) {
-        var results = {
-          key : reply
-        };
-        console.log("Key: " + key + " set. Response: " + reply);
-        res.status(201).json(results);
+        res.status(201).json("OK");
       });
     }
   });
@@ -77,14 +73,43 @@ Campaign.prototype.get = function(req, res) {
 
     if (reply) {
       var results = {
-        key : reply
+        key : key,
+        value : reply
       };
       res.status(200).json(results);
     }
     else {
-      res.status(404).json('Key not found: ' + key );
+      res.status(404).json('OK - Key not found: ' + key );
     }
 
+  });
+
+};
+
+/**
+ * Delete campaign document. Example request DELETE:
+ * /api/v1/campaign?key=mb-digest-campaign-12345-en
+ *
+ * @param req
+ *   The request object in the GET callback.
+ * @param res
+ *   The response object in the GET callback.
+ */
+Campaign.prototype.delete = function(req, res) {
+
+  this.request = req;
+  this.response = res;
+  var targetKey = this.request.query.key;
+
+  client.del(targetKey, function(err, reply) {
+    console.log('reply: ' + reply);
+    if (reply) {
+      res.status(200).json('OK - Key deleted: ' + targetKey );
+    }
+    else {
+      var message = 'OK - No keys found to delete for key: ' + targetKey;
+      res.status(404).json(message);
+    }
   });
 
 };
