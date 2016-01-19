@@ -40,7 +40,8 @@
     "mocha":"^2.3.4"
   },
   "scripts": {
-    "test": "NODE_ENV=development mocha mb-logging-api-server.js test.js"
+    "test": "NODE_ENV=development mocha mb-logging-api-server.js test.js",
+    "start": "bin/mb-logging-api-server"
   },
   "license": "MIT"
 }
