@@ -59,7 +59,7 @@ module.exports = (function() {
         type : String,
         lowercase : 1,
         trim : true,
-        enum: ['niche', 'niche.com', 'hercampus', 'att-ichannel', 'teenlife']
+        enum: ['niche', 'niche.com', 'afterschool', 'hercampus', 'att-ichannel', 'teenlife']
       },
       phone : {
         number : { type : String, trim : true },
@@ -96,7 +96,7 @@ module.exports = (function() {
         type : String,
         lowercase : 1,
         trim : true,
-        enum: ['niche', 'niche.com', 'hercampus', 'att-ichannel', 'teenlife']
+        enum: ['niche', 'niche.com', 'afterschool', 'hercampus', 'att-ichannel', 'teenlife']
       },
       log_type : {
         type : String,
