@@ -35,6 +35,7 @@ module.exports = (function() {
   
   // Define schema / models
   var userImportCollectionName_Niche = 'userimport-niche' + collectionIndentifier;
+  var userImportCollectionName_AfterSchool = 'userimport-afterschool' + collectionIndentifier;
   var userImportCollectionName_HerCampus = 'userimport-hercampus' + collectionIndentifier;
   var userImportCollectionName_ATT_iChannel = 'userimport-att-ichannel' + collectionIndentifier;
   var userImportCollectionName_TeenLife = 'userimport-teenlife' + collectionIndentifier;
@@ -78,6 +79,7 @@ module.exports = (function() {
     userImportLoggingSchema.set('autoIndex', false);
   
     models.userImportModel_niche = mongoose.model(userImportCollectionName_Niche, userImportLoggingSchema);
+        models.userImportModel_afterschool = mongoose.model(userImportCollectionName_AfterSchool, userImportLoggingSchema);
     models.userImportModel_hercampus = mongoose.model(userImportCollectionName_HerCampus, userImportLoggingSchema);
     models.userImportModel_att_ichannel = mongoose.model(userImportCollectionName_ATT_iChannel, userImportLoggingSchema);
     models.userImportModel_teenlife = mongoose.model(userImportCollectionName_TeenLife, userImportLoggingSchema);
@@ -144,13 +146,13 @@ module.exports = (function() {
         type : String,
         lowercase : 1,
         trim : true,
-        enum: ['niche', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'mui', 'us', 'ca', 'uk', 'gb', 'id', 'bw', 'ke', 'ng', 'gh', 'br', 'mx']
+        enum: ['niche', 'afterschool', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'mui', 'us', 'ca', 'uk', 'gb', 'id', 'bw', 'ke', 'ng', 'gh', 'br', 'mx']
       },
       activity : {
         type : String,
         lowercase : 1,
         trim : true,
-        enum: ['user_register', 'user_password', 'campaign_signup', 'campaign_reportback', 'user_welcome-niche', 'user_password-niche']
+        enum: ['user_register', 'user_password', 'campaign_signup', 'campaign_reportback', 'user_welcome-niche', 'user_welcome-afterschool', 'user_password-niche']
       },
       activity_date : { type: Date, default: Date.now },
       activity_details : { type : String }
