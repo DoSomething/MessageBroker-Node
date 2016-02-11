@@ -70,6 +70,10 @@ module.exports = (function() {
           var userImport = new UserImport(model.userImportModel_niche);
           userImport.post(req, res);
         }
+        else if (req.query.source.toLowerCase() === 'afterschool') {
+          var userImport = new UserImport(model.userImportModel_afterschool);
+          userImport.post(req, res);
+        }
         else if (req.query.source.toLowerCase() === 'hercampus') {
           var userImport = new UserImport(model.userImportModel_hercampus);
           userImport.post(req, res);
@@ -103,6 +107,10 @@ module.exports = (function() {
           var userImport = new UserImport(model.userImportModel_niche);
           userImport.get(req, res);
         }
+        else if (req.query.source.toLowerCase() === 'afterschool') {
+          var userImport = new UserImport(model.userImportModel_hercampus);
+          userImport.get(req, res);
+        }
         else if (req.query.source.toLowerCase() === 'hercampus') {
           var userImport = new UserImport(model.userImportModel_hercampus);
           userImport.get(req, res);
@@ -132,6 +140,10 @@ module.exports = (function() {
       else {
         if (req.query.source.toLowerCase() === 'niche') {
           var userImport = new UserImport(model.userImportModel_niche);
+          userImport.delete(req, res);
+        }
+        else if (req.query.source.toLowerCase() === 'afterschool') {
+          var userImport = new UserImport(model.userImportModel_afterschool);
           userImport.delete(req, res);
         }
         else if (req.query.source.toLowerCase() === 'hercampus') {
