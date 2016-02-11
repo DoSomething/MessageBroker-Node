@@ -83,7 +83,7 @@ module.exports = (function() {
           userImport.post(req, res);
         }
         else {
-          console.log('POST /api/v1/imports request. Invalid source: ' + req.query.source);
+          console.log('ERROR, POST /api/v1/imports request. Invalid source: ' + req.query.source);
           res.status(400).json('ERROR, invalid required value. POST /api/v1/import request. source: ' + req.query.source.toLowerCase() + ' is not supported.');
         }
       }
@@ -96,7 +96,7 @@ module.exports = (function() {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
           req.query.origin === undefined) {
-        res.status(400).json('ERROR, type, source and origin not specified.');
+        res.status(400).json('ERROR, missing required values. GET /api/v1/import, type, source and origin not specified.');
       }
       else {
         if (req.query.source.toLowerCase() === 'niche') {
@@ -116,7 +116,7 @@ module.exports = (function() {
           userImport.get(req, res);
         }
         else {
-          console.log('GET /api/v1/imports request. Invalid source: ' + req.query.source);
+          console.log('ERROR, GET /api/v1/imports request. Invalid source: ' + req.query.source);
           res.status(400).json('ERROR, invalid required value. GET /api/v1/import request. source: ' + req.query.source.toLowerCase() + ' is not supported.');
         }
       }
@@ -127,7 +127,7 @@ module.exports = (function() {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
           req.query.origin === undefined) {
-        res.status(400).json('type, source and origin not specified.');
+        res.status(400).json('ERROR, missing required value. DELETE /api/v1/imports request type, source and origin not specified.');
       }
       else {
         if (req.query.source.toLowerCase() === 'niche') {
@@ -147,7 +147,7 @@ module.exports = (function() {
           userImport.delete(req, res);
         }
         else {
-          console.log('DELETE /api/v1/imports request. Invalid source: ' + req.query.source);
+          console.log('ERROR, DELETE /api/v1/imports request. Invalid source: ' + req.query.source);
           res.status(400).json('ERROR, invalid required value. DELETE /api/v1/import request. source: ' + req.query.source.toLowerCase() + ' is not supported.');
         }
       }
@@ -199,7 +199,7 @@ module.exports = (function() {
     .get(function(req, res) {
       if (req.query.type === undefined ||
           req.query.source === undefined) {
-        res.status(400).json('type or source not specified.');
+        res.status(400).json('ERROR, missing required value. GET /v1/imports/summaries request: type or source not specified.');
       }
       else {
         var userImportSummary = new UserImportSummary(model.importSummaryModel);
@@ -213,7 +213,7 @@ module.exports = (function() {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
           req.query.origin === undefined) {
-        res.status(400).json('type, source and origin not specified.');
+        res.status(400).json('ERROR, missing required value. DELETE /v1/imports/summaries request: type, source and origin not specified.');
       }
       else {
         var userImportSummary = new UserImportSummary(model.importSummaryModel);
@@ -254,13 +254,13 @@ module.exports = (function() {
   
     .post(function(req, res) {
       if (req.query.type != 'vote') {
-        res.status(400).json('POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
+        res.status(400).json('ERROR, missing required value. POST /api/v1/user/activity request. Type not supported activity: ' + req.body.type);
       }
       else if (req.body.email === undefined ||
                req.body.source === undefined ||
                req.body.activity_details === undefined
       ) {
-        res.status(400).json('POST /api/v1/user/activity request. email, source  or activity_details undefined.');
+        res.status(400).json('ERROR, missing required value. POST /api/v1/user/activity request. email, source  or activity_details undefined.');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
@@ -271,7 +271,7 @@ module.exports = (function() {
     .get(function(req, res) {
       if (req.query.type === undefined &&
           req.query.source === undefined) {
-        res.status(400).json('GET /api/v1/user/activity request: type or source not defined. ');
+        res.status(400).json('ERROR, missing required value. GET /api/v1/user/activity request: type or source not defined. ');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
@@ -283,7 +283,7 @@ module.exports = (function() {
       if (req.query.email === undefined ||
           req.query.type === undefined ||
           req.query.source === undefined) {
-        res.status(400).json('DELETE /api/v1/user/activity request: email, type or source not defined.');
+        res.status(400).json('ERROR, missing required value. DELETE /api/v1/user/activity request: email, type or source not defined.');
       }
       else {
         var userActivity = new UserActivity(model.userActivityModel);
@@ -318,7 +318,7 @@ module.exports = (function() {
           req.query.activity === undefined ||
           req.body.source === undefined ||
           req.body.message === undefined) {
-        res.status(400).json('POST /api/v1/user/transactional request. email, activity, source or message not specified.');
+        res.status(400).json('ERROR, missing required value. POST /api/v1/user/transactional request. email, activity, source or message not specified.');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
@@ -328,7 +328,7 @@ module.exports = (function() {
 
     .get(function(req, res) {
       if (req.query.email === undefined) {
-        res.status(400).json('GET /api/v1/user/transactional request, email not defined. ');
+        res.status(400).json('ERROR, missing required value. GET /api/v1/user/transactional request, email not defined. ');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
@@ -338,7 +338,7 @@ module.exports = (function() {
 
     .delete(function(req, res) {
       if (req.query.email === undefined) {
-        res.status(400).json('DELETE /api/v1/user/transactional request, email not defined.');
+        res.status(400).json('ERROR, missing required value. DELETE /api/v1/user/transactional request, email not defined.');
       }
       else {
         var userTransactional = new UserTransactional(model.userTransactionalModel);
