@@ -179,21 +179,21 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         done();
       });
   });
-
+  
   it('POST: Valid After School import log entry returns 201 response code and OK message.', function(done) {
 
     urlParams = '?type=user_import&source=afterschool&exists=1&origin=AfterSchool-01-01-16.csv&processed_timestamp=1451606399';
     request(app)
       .post('/api/v1/imports'+ urlParams)
       .send({
-        "logging_timestamp": "1451606400",
-        "email": "test1@test.com",
+        "logging_timestamp": "1423612800",
+        "email": "test2@test.com",
         "email_status": "Test email...",
         "email_acquired_timestamp": "1451606398",
         "phone": "2345678901",
         "phone_status": "Test phone...",
         "drupal_uid": "123456789",
-        "drupal_email": "test1@test.com"
+        "drupal_email": "test2@test.com"
       })
       .expect(201)
       .expect("content-type", /json/)
@@ -218,12 +218,12 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         if (err) throw err;
         res.status.should.equal(200);
         res.body[0].source.should.equal("afterschool");
-        res.body[0].email.address.should.equal("test1@test.com");
+        res.body[0].email.address.should.equal("test2@test.com");
         res.body[0].email.status.should.equal("Test email...");
         res.body[0].phone.number.should.equal("2345678901");
         res.body[0].phone.status.should.equal("Test phone...");
         res.body[0].drupal.uid.should.equal(123456789);
-        res.body[0].drupal.email.should.equal("test1@test.com");
+        res.body[0].drupal.email.should.equal("test2@test.com");
         res.body[0].origin.should.have.property('processed');
         res.body[0].origin.name.should.equal("AfterSchool-01-01-16.csv");
         res.body[0].should.have.property('logged_date');
@@ -260,9 +260,10 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         response.body.should.startWith('OK - No documents found');
         done();
       });
+
   });
 
-  it('GET: Lookup of missing Niche import log entries returns 404 response code.', function(done) {
+  it('GET: Lookup of missing After School import log entries returns 404 response code.', function(done) {
 
     urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
     request(app)
@@ -276,6 +277,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         done();
       });
   });
+
 });
 
 /**
