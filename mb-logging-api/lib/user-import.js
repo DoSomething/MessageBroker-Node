@@ -84,7 +84,7 @@ UserImport.prototype.post = function(req, res) {
       "uid" : this.request.body.drupal_uid
     }
   }
-  addArgs.logged_date = new Date();
+  addArgs.logged_date = convertToDate(this.request.body.logging_timestamp);
 
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
@@ -127,6 +127,7 @@ UserImport.prototype.get = function(req, res) {
     request: req,
     response: res
   };
+
   this.docModel.find( {
     $and : [
       { 'logged_date' : {$gte : targetStartDate, $lte : targetEndDate} },
@@ -140,7 +141,7 @@ UserImport.prototype.get = function(req, res) {
       }
 
       if (docs.length == 0) {
-        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin ' + req.query.origin + ' logged_date: gte: ' + targetStartDate + ' lte ' + targetEndDate);
+        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin: ' + req.query.origin + ' logged_date: gte: ' + targetStartDate + ' lte: ' + targetEndDate);
       }
       else {
         res.status(200).json(docs);

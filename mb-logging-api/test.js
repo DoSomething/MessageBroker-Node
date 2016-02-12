@@ -82,10 +82,10 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         done();
       });
   });
+  
+  it('POST: Valid Niche import log entry returns 201 response code and OK message.', function(done) {
 
-  it('POST: Valid import log entry returns 201 response code and OK message.', function(done) {
-
-    urlParams = '?type=user_import&source=teenlife&exists=1&origin=TeenLife-01-01-16.csv&processed_timestamp=1451606399';
+    urlParams = '?type=user_import&source=niche&exists=1&origin=Niche-01-01-16.csv&processed_timestamp=1451606399';
     request(app)
       .post('/api/v1/imports'+ urlParams)
       .send({
@@ -110,9 +110,9 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       });
   });
 
-  it('GET: Lookup import log entries returns 200 response code and expected content.', function(done) {
+  it('GET: Lookup Niche import log entries returns 200 response code and expected content.', function(done) {
 
-    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin=Niche-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(200)
@@ -120,7 +120,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       .end(function(err, res) {
         if (err) throw err;
         res.status.should.equal(200);
-        res.body[0].source.should.equal("teenlife");
+        res.body[0].source.should.equal("niche");
         res.body[0].email.address.should.equal("test1@test.com");
         res.body[0].email.status.should.equal("Test email...");
         res.body[0].phone.number.should.equal("2345678901");
@@ -128,16 +128,16 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         res.body[0].drupal.uid.should.equal(123456789);
         res.body[0].drupal.email.should.equal("test1@test.com");
         res.body[0].origin.should.have.property('processed');
-        res.body[0].origin.name.should.equal("TeenLife-01-01-16.csv");
+        res.body[0].origin.name.should.equal("Niche-01-01-16.csv");
         res.body[0].should.have.property('logged_date');
         res.body[0].logged_date.should.not.equal(null);
         done();
       });
   });
 
-  it('DELETE: Import log entry returns 200 response code and expected OK response.', function(done) {
+  it('DELETE: Niche import log entry returns 200 response code and expected OK response.', function(done) {
 
-    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin=Niche-01-01-16.csv';
     request(app)
       .delete('/api/v1/imports' + urlParams)
       .expect(200)
@@ -150,9 +150,9 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       });
   });
 
-  it('DELETE: Attempted deletion of missing user import log entries returns 404 response code and JSON "OK".', function(done) {
+  it('DELETE: Attempted deletion of missing Niche user import log entries returns 404 response code and JSON "OK".', function(done) {
 
-    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin=Niche-01-01-16.csv';
     request(app)
       .delete('/api/v1/imports' + urlParams)
       .expect(404)
@@ -165,9 +165,9 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
       });
   });
 
-  it('GET: Lookup of missing import log entries returns 404 response code.', function(done) {
+  it('GET: Lookup of missing Niche import log entries returns 404 response code.', function(done) {
 
-    urlParams = '?type=user_import&source=teenlife&origin=TeenLife-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin=Niche-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(404)
@@ -179,12 +179,111 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         done();
       });
   });
+  
+  it('POST: Valid After School import log entry returns 201 response code and OK message.', function(done) {
+
+    urlParams = '?type=user_import&source=afterschool&exists=1&origin=AfterSchool-01-01-16.csv&processed_timestamp=1451606399';
+    request(app)
+      .post('/api/v1/imports'+ urlParams)
+      .send({
+        "logging_timestamp": "1423612800",
+        "email": "test2@test.com",
+        "email_status": "Test email...",
+        "email_acquired_timestamp": "1451606398",
+        "phone": "2345678901",
+        "phone_status": "Test phone...",
+        "drupal_uid": "123456789",
+        "drupal_email": "test2@test.com"
+      })
+      .expect(201)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) {
+          throw err;
+        }
+        response.status.should.equal(201)
+        response.body.should.equal("OK")
+        done();
+      });
+  });
+
+  it('GET: Lookup After School import log entries returns 200 response code and expected content.', function(done) {
+
+    urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
+    request(app)
+      .get('/api/v1/imports' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, res) {
+        if (err) throw err;
+        res.status.should.equal(200);
+        res.body[0].source.should.equal("afterschool");
+        res.body[0].email.address.should.equal("test2@test.com");
+        res.body[0].email.status.should.equal("Test email...");
+        res.body[0].phone.number.should.equal("2345678901");
+        res.body[0].phone.status.should.equal("Test phone...");
+        res.body[0].drupal.uid.should.equal(123456789);
+        res.body[0].drupal.email.should.equal("test2@test.com");
+        res.body[0].origin.should.have.property('processed');
+        res.body[0].origin.name.should.equal("AfterSchool-01-01-16.csv");
+        res.body[0].should.have.property('logged_date');
+        res.body[0].logged_date.should.not.equal(null);
+        done();
+      });
+  });
+
+  it('DELETE: After School import log entry returns 200 response code and expected OK response.', function(done) {
+
+    urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
+    request(app)
+      .delete('/api/v1/imports' + urlParams)
+      .expect(200)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(200);
+        response.body.should.startWith('OK - Deleted');
+        done();
+      });
+  });
+
+  it('DELETE: Attempted deletion of missing After School user import log entries returns 404 response code and JSON "OK".', function(done) {
+
+    urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
+    request(app)
+      .delete('/api/v1/imports' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No documents found');
+        done();
+      });
+
+  });
+
+  it('GET: Lookup of missing After School import log entries returns 404 response code.', function(done) {
+
+    urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
+    request(app)
+      .get('/api/v1/imports' + urlParams)
+      .expect(404)
+      .expect("content-type", /json/)
+      .end(function(err, response) {
+        if (err) throw err;
+        response.status.should.equal(404);
+        response.body.should.startWith('OK - No match found');
+        done();
+      });
+  });
+
 });
 
 /**
  * /api/v1/imports/summaries
  */
-describe('Requests to v1 imports (/api/v1/imports/summaries) path', function() {
+describe('Requests to v1 import summaries (/api/v1/imports/summaries) path', function() {
 
   it('POST: Returns a 400 status code when required parameters "type", "source", "target_CSV_file", "signup_count" and "skipped" are not defined.', function(done) {
 
