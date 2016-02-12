@@ -7,7 +7,11 @@ module.exports = (function() {
   
   if (app.get('env') == 'development' || app.get('env') == 'test') {
     // To output objects for debugging
+    // https://docs.nodejitsu.com/articles/getting-started/how-to-use-util-inspect
+    // util.inspect(object, showHidden=false, depth=2, colorize=true);
+
     // console.log("/process request: " + util.inspect(request, false, null));
+
     var util = require('util');
   }
   
@@ -79,7 +83,7 @@ module.exports = (function() {
     userImportLoggingSchema.set('autoIndex', false);
   
     models.userImportModel_niche = mongoose.model(userImportCollectionName_Niche, userImportLoggingSchema);
-        models.userImportModel_afterschool = mongoose.model(userImportCollectionName_AfterSchool, userImportLoggingSchema);
+    models.userImportModel_afterschool = mongoose.model(userImportCollectionName_AfterSchool, userImportLoggingSchema);
     models.userImportModel_hercampus = mongoose.model(userImportCollectionName_HerCampus, userImportLoggingSchema);
     models.userImportModel_att_ichannel = mongoose.model(userImportCollectionName_ATT_iChannel, userImportLoggingSchema);
     models.userImportModel_teenlife = mongoose.model(userImportCollectionName_TeenLife, userImportLoggingSchema);
