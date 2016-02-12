@@ -108,7 +108,7 @@ module.exports = (function() {
           userImport.get(req, res);
         }
         else if (req.query.source.toLowerCase() === 'afterschool') {
-          var userImport = new UserImport(model.userImportModel_hercampus);
+          var userImport = new UserImport(model.userImportModel_afterschool);
           userImport.get(req, res);
         }
         else if (req.query.source.toLowerCase() === 'hercampus') {
