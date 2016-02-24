@@ -177,7 +177,13 @@ User.prototype.post = function(req, res) {
           else if (keys[i] == "first") {
             updateArgs['$set'].first_name = self.request.body[keys[i]]
           }
+          else if (keys[i] == "first_name") {
+            updateArgs['$set'].first_name = self.request.body[keys[i]]
+          }
           else if (keys[i] == "last") {
+            updateArgs['$set'].last_name = self.request.body[keys[i]]
+          }
+          else if (keys[i] == "last_name") {
             updateArgs['$set'].last_name = self.request.body[keys[i]]
           }
           else if (keys[i] == "user_language") {
