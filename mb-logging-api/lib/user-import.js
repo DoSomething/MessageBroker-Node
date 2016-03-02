@@ -84,6 +84,7 @@ UserImport.prototype.post = function(req, res) {
       "uid" : this.request.body.drupal_uid
     }
   }
+  addArgs.logged_date = new Date();
 
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
