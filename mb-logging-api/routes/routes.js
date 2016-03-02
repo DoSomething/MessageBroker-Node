@@ -99,8 +99,9 @@ module.exports = (function() {
     .get(function(req, res) {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
-          req.query.origin_start === undefined) {
-        res.status(400).json('ERROR, missing required values. GET /api/v1/import : type, source and origin_start not specified.');
+          req.query.origin_start === undefined ||
+          req.query.origin_end === undefined) {
+        res.status(400).json('ERROR, missing required values. GET /api/v1/import : type, source, origin_start and origin_end not specified.');
       }
       else {
         if (req.query.source.toLowerCase() === 'niche') {
@@ -165,20 +166,6 @@ module.exports = (function() {
       }
 
     });
-
-    /**
-     * @todo:
-     *
-     * GET
-     * router.route('/v1/imports:start_processed_date')
-     * router.route('/v1/imports:start_processed_date/:end_processed_date')
-     *
-     * var start_processed_date = req.params.start_processed_date
-     *
-     * Parameterized Routes in Express.js
-     * https://www.safaribooksonline.com/blog/2014/03/13/
-     *   parameterized-routes-express-js/
-     */
   
   /**
    * POST to /api/v1/imports/summaries
@@ -210,8 +197,10 @@ module.exports = (function() {
      */
     .get(function(req, res) {
       if (req.query.type === undefined ||
-          req.query.source === undefined) {
-        res.status(400).json('ERROR, missing required value. GET /v1/imports/summaries request: type or source not specified.');
+          req.query.source === undefined ||
+          req.query.origin_start === undefined ||
+          req.query.origin_end === undefined) {
+        res.status(400).json('ERROR, missing required value. GET /v1/imports/summaries request: type, source, origin_start and origin_end not specified.');
       }
       else {
         var userImportSummary = new UserImportSummary(model.importSummaryModel);
