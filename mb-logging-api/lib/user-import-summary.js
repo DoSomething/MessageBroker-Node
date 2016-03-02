@@ -83,17 +83,11 @@ UserImportSummary.prototype.post = function(req, res) {
  */
 UserImportSummary.prototype.get = function(req, res) {
 
-  if (req.params.start_processed_date === undefined) {
-    var targetStartDate = new Date('2014-08-01');
+  if (req.query.origin_start.indexOf('*') > -1) {
+    var originCondition = req.query.origin_start;
   }
   else {
-    var targetStartDate = new Date(req.params.start_processed_date);
-  }
-  if (req.params.end_processed_date === undefined) {
-    var targetEndDate = new Date();
-  }
-  else {
-    var targetEndDate = new Date(req.params.start_processed_date);
+    var originCondition = {$gte : req.query.origin_start, $lt : req.query.origin_end};
   }
 
   var data = {
@@ -102,8 +96,8 @@ UserImportSummary.prototype.get = function(req, res) {
   };
   this.docModel.find( {
     $and : [
-      { 'logged_date' : {$gte : targetStartDate, $lte : targetEndDate} },
-      { 'source' : req.query.source }
+      { 'source' : req.query.source },
+      { 'target_CSV_file' : originCondition }
     ]},
     function (err, docs) {
       if (err) {
@@ -112,7 +106,7 @@ UserImportSummary.prototype.get = function(req, res) {
       }
 
       if (docs.length == 0) {
-        res.status(404).json('OK - No match found for source ' + req.query.source + ' logged_date: gte: ' + targetStartDate + ' lte ' + targetEndDate);
+        res.status(404).json('OK - No match found for source ' + req.query.source + ' origin_start: gte: ' + req.query.origin_start + ' origin_end lt ' + req.query.origin_end);
       }
       else {
         res.status(200).json(docs);
