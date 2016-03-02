@@ -99,8 +99,8 @@ module.exports = (function() {
     .get(function(req, res) {
       if (req.query.type === undefined ||
           req.query.source === undefined ||
-          req.query.origin === undefined) {
-        res.status(400).json('ERROR, missing required values. GET /api/v1/import, type, source and origin not specified.');
+          req.query.origin_start === undefined) {
+        res.status(400).json('ERROR, missing required values. GET /api/v1/import : type, source and origin_start not specified.');
       }
       else {
         if (req.query.source.toLowerCase() === 'niche') {
