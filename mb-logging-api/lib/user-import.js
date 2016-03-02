@@ -123,6 +123,13 @@ UserImport.prototype.get = function(req, res) {
     var targetEndDate = new Date(req.param("end_date"));
   }
 
+  if (req.query.origin_start.indexOf('*') === -1 && req.query.origin_end === undefined) {
+    var originCondition = req.query.origin_start;
+  }
+  else {
+    var originCondition = {$gte : req.query.origin_start, $lt : req.query.origin_end};
+  }
+
   var data = {
     request: req,
     response: res
@@ -132,7 +139,7 @@ UserImport.prototype.get = function(req, res) {
     $and : [
       { 'logged_date' : {$gte : targetStartDate, $lte : targetEndDate} },
       { 'source' : req.query.source },
-      { 'origin.name' : req.query.origin }
+      { 'origin.name' : originCondition }
     ]},
     function (err, docs) {
       if (err) {
