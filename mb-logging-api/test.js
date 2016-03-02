@@ -112,7 +112,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup Niche import log entries returns 200 response code and expected content.', function(done) {
 
-    urlParams = '?type=user_import&source=niche&origin=Niche-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin_start=Niche-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(200)
@@ -167,7 +167,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup of missing Niche import log entries returns 404 response code.', function(done) {
 
-    urlParams = '?type=user_import&source=niche&origin=Niche-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin_start=Niche-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(404)
@@ -209,7 +209,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup After School import log entries returns 200 response code and expected content.', function(done) {
 
-    urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
+    urlParams = '?type=user_import&source=afterschool&origin_start=AfterSchool-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(200)
@@ -265,7 +265,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup of missing After School import log entries returns 404 response code.', function(done) {
 
-    urlParams = '?type=user_import&source=afterschool&origin=AfterSchool-01-01-16.csv';
+    urlParams = '?type=user_import&source=afterschool&origin_start=AfterSchool-01-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(404)
