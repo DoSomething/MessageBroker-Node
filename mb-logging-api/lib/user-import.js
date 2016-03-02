@@ -110,7 +110,7 @@ UserImport.prototype.post = function(req, res) {
  */
 UserImport.prototype.get = function(req, res) {
 
-  if (req.query.origin_start.indexOf('*') === -1 && req.query.origin_end === undefined) {
+  if (req.query.origin_start.indexOf('*') > -1) {
     var originCondition = req.query.origin_start;
   }
   else {
