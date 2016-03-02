@@ -84,7 +84,6 @@ UserImport.prototype.post = function(req, res) {
       "uid" : this.request.body.drupal_uid
     }
   }
-  addArgs.logged_date = convertToDate(this.request.body.logging_timestamp);
 
   var logEntry = new this.docModel(addArgs);
   logEntry.save(function(err) {
@@ -134,7 +133,7 @@ UserImport.prototype.get = function(req, res) {
       }
 
       if (docs.length == 0) {
-        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin: ' + req.query.origin);
+        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin_start: ' + req.query.origin_start + ' origin_end: ' + req.query.origin_end);
       }
       else {
         res.status(200).json(docs);
