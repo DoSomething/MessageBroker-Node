@@ -110,19 +110,6 @@ UserImport.prototype.post = function(req, res) {
  */
 UserImport.prototype.get = function(req, res) {
 
-  if (req.param("start_date") === undefined) {
-    var targetStartDate = new Date('2014-08-01');
-  }
-  else {
-    var targetStartDate = new Date(req.param("start_date"));
-  }
-  if (req.param("end_date") === undefined) {
-    var targetEndDate = new Date();
-  }
-  else {
-    var targetEndDate = new Date(req.param("end_date"));
-  }
-
   if (req.query.origin_start.indexOf('*') === -1 && req.query.origin_end === undefined) {
     var originCondition = req.query.origin_start;
   }
@@ -137,7 +124,6 @@ UserImport.prototype.get = function(req, res) {
 
   this.docModel.find( {
     $and : [
-      { 'logged_date' : {$gte : targetStartDate, $lte : targetEndDate} },
       { 'source' : req.query.source },
       { 'origin.name' : originCondition }
     ]},
@@ -148,7 +134,7 @@ UserImport.prototype.get = function(req, res) {
       }
 
       if (docs.length == 0) {
-        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin: ' + req.query.origin + ' logged_date: gte: ' + targetStartDate + ' lte: ' + targetEndDate);
+        res.status(404).json('OK - No match found for source ' + req.query.source + ', origin: ' + req.query.origin);
       }
       else {
         res.status(200).json(docs);

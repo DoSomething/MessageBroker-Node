@@ -40,7 +40,8 @@
     "mocha":"^2.3.4"
   },
   "scripts": {
-    "test": "NODE_ENV=development mocha mb-digest-api-server.js test.js"
+    "test": "NODE_ENV=development mocha mb-digest-api-server.js test.js",
+    "start": "bin/mb-digest-api-server"
   },
   "license": "MIT"
 }

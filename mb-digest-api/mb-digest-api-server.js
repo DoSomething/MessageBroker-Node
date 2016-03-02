@@ -21,7 +21,6 @@ global.rootRequire = function(name) {
  * as defined in package.json.
  */
 var express           = require('express');
-var redis             = require('redis');
 var bodyParser        = require('body-parser');
 var FileStreamRotator = require('file-stream-rotator');
 var fs                = require('fs');

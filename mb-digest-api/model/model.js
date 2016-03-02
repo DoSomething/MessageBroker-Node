@@ -10,6 +10,8 @@ module.exports = (function() {
     // console.log("/process request: " + util.inspect(request, false, null));
     var util = require('util');
   }
+  
+  console.log("app.get(env): " + app.get('env'));
 
   // Redis
   // =============================================================================
@@ -26,8 +28,14 @@ module.exports = (function() {
     var redisUri = mb_config.redis.development.host;
     var redisPort = mb_config.redis.development.port;
   }
+  
+  console.log("redisUri: " + redisUri);
+  console.log("redisPort: " + redisPort);
 
-  var client = redis.createClient(redisPort, redisUri);
+var client = redis.createClient(redisPort, redisUri);
+// var client = redis.createClient(redisPort, redisUri, {no_ready_check: true});
+// var client = redis.createClient();
+  
   client.on('connect', function() {
     console.log('- Redis connected!');
   });
