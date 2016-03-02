@@ -112,7 +112,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup Niche import log entries returns 200 response code and expected content.', function(done) {
 
-    urlParams = '?type=user_import&source=niche&origin_start=Niche-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin_start=Niche-01-01-16.csv&origin_end=Niche-02-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(200)
@@ -167,7 +167,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup of missing Niche import log entries returns 404 response code.', function(done) {
 
-    urlParams = '?type=user_import&source=niche&origin_start=Niche-01-01-16.csv';
+    urlParams = '?type=user_import&source=niche&origin_start=Niche-01-01-16.csv&origin_end=Niche-01-01-17.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(404)
@@ -209,7 +209,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup After School import log entries returns 200 response code and expected content.', function(done) {
 
-    urlParams = '?type=user_import&source=afterschool&origin_start=AfterSchool-01-01-16.csv';
+    urlParams = '?type=user_import&source=afterschool&origin_start=AfterSchool-01-01-16.csv&origin_end=AfterSchool-02-01-16.csv';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(200)
@@ -265,7 +265,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
 
   it('GET: Lookup of missing After School import log entries returns 404 response code.', function(done) {
 
-    urlParams = '?type=user_import&source=afterschool&origin_start=AfterSchool-01-01-16.csv';
+    urlParams = '?type=user_import&source=afterschool&origin_start=AfterSchool-01-01-16&origin_end=AfterSchool-02-01-16';
     request(app)
       .get('/api/v1/imports' + urlParams)
       .expect(404)
@@ -325,7 +325,7 @@ describe('Requests to v1 import summaries (/api/v1/imports/summaries) path', fun
 
   it('GET: Lookup import log summary entry returns 200 response code and expected content.', function(done) {
 
-    urlParams = '?type=user_import&source=teenlife';
+    urlParams = '?type=user_import&source=teenlife&origin_start=2015-13-00&origin_end=2015-13-01';
     request(app)
       .get('/api/v1/imports/summaries' + urlParams)
       .expect(200)
@@ -377,7 +377,7 @@ describe('Requests to v1 import summaries (/api/v1/imports/summaries) path', fun
 
   it('GET: Lookup of missing import summary log entry returns 404 response code.', function(done) {
 
-    urlParams = '?type=user_import&source=teenlife';
+    urlParams = '?type=user_import&source=teenlife&origin_start=2015-13-00&origin_end=2015-13-01';
     request(app)
       .get('/api/v1/imports/summaries' + urlParams)
       .expect(404)
