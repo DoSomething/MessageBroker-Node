@@ -10,3 +10,6 @@ node_modules/
 # Ignore logs
 npm-debug.log
 logs/
+
+# Ignore PHPStorm config
+.idea
