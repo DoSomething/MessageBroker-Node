@@ -30,6 +30,7 @@ An API to send logging data for persistant storage. Currently the persistant sto
     * email_acquired_timestamp Integer
     * drupal_uid Integer
     * drupal_email String
+    * drupal_mobile String
 * **GET /api/v1/imports?type=[user_import]&source=[ niche | hercampus | att-ichannel | teenlife ]&origin_start=[ CSV filename pattern ]&origin_end=[ CSV filename pattern ]**
 * **DELETE /api/v1/imports?type=[user_import]&source=[ niche | hercampus | att-ichannel | teenlife ]&origin=[ filename.csv ]**
 
