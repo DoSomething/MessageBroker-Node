@@ -96,7 +96,8 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         "phone": "2345678901",
         "phone_status": "Test phone...",
         "drupal_uid": "123456789",
-        "drupal_email": "test1@test.com"
+        "drupal_email": "test1@test.com",
+        "drupal_mobile": "2345678901"
       })
       .expect(201)
       .expect("content-type", /json/)
@@ -127,6 +128,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         res.body[0].phone.status.should.equal("Test phone...");
         res.body[0].drupal.uid.should.equal(123456789);
         res.body[0].drupal.email.should.equal("test1@test.com");
+        res.body[0].drupal.mobile.should.equal("2345678901");
         res.body[0].origin.should.have.property('processed');
         res.body[0].origin.name.should.equal("Niche-01-01-16.csv");
         res.body[0].should.have.property('logged_date');
@@ -193,7 +195,8 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         "phone": "2345678901",
         "phone_status": "Test phone...",
         "drupal_uid": "123456789",
-        "drupal_email": "test2@test.com"
+        "drupal_email": "test2@test.com",
+        "drupal_mobile": "2345678901",
       })
       .expect(201)
       .expect("content-type", /json/)
@@ -224,6 +227,7 @@ describe('Requests to v1 imports (/api/v1/imports) path', function() {
         res.body[0].phone.status.should.equal("Test phone...");
         res.body[0].drupal.uid.should.equal(123456789);
         res.body[0].drupal.email.should.equal("test2@test.com");
+        res.body[0].drupal.mobile.should.equal("2345678901");
         res.body[0].origin.should.have.property('processed');
         res.body[0].origin.name.should.equal("AfterSchool-01-01-16.csv");
         res.body[0].should.have.property('logged_date');
