@@ -77,6 +77,7 @@ module.exports = (function() {
       },
       drupal : {
         email : { type : String, trim : true },
+        mobile : { type : String, trim : true },
         uid : { type : Number }
       }
     });
