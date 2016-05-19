@@ -42,6 +42,7 @@ var convertToDate = function(timestamp) {
  * - req.body.email_acquired_timestamp
  * - req.body.phone_status
  * - req.body.drupal_email
+ * - req.body.drupal_mobile
  *
  * @param req
  *  The request object in a POST callback.
@@ -81,6 +82,7 @@ UserImport.prototype.post = function(req, res) {
   if (this.request.body.drupal_uid !== undefined) {
     addArgs.drupal = {
       "email" : this.request.body.drupal_email,
+      "mobile" : this.request.body.drupal_mobile,
       "uid" : this.request.body.drupal_uid
     }
   }
