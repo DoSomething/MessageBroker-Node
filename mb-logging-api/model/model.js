@@ -147,12 +147,7 @@ module.exports = (function() {
       logged_date : { type: Date, default: Date.now },
       email : { type : String, trim : true },
       mobile : { type : String, trim : true },
-      source : {
-        type : String,
-        lowercase : 1,
-        trim : true,
-        enum: ['niche', 'afterschool', 'hercampus', 'att-ichannel', 'teenlife', 'cgg', 'agg', 'mui', 'us', 'ca', 'uk', 'gb', 'id', 'bw', 'ke', 'ng', 'gh', 'br', 'mx']
-      },
+      source : { type : String, lowercase : 1, trim : true },
       activity : {
         type : String,
         lowercase : 1,
