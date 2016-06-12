@@ -1,0 +1,12 @@
+# Ststtem files
+.DS_Store
+
+# Ignore config file
+config/mb_config.json
+
+# Libraries
+node_modules/
+
+# Ignore logs
+npm-debug.log
+logs/
