@@ -1,5 +1,6 @@
-# Ststtem files
+# System files
 .DS_Store
+.idea
 
 # Ignore config file
 config/mb_config.json
