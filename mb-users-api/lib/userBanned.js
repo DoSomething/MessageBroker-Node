@@ -36,9 +36,26 @@ UserBanned.prototype.post = function(req, res) {
   self.response = res;
   self.email = self.request.body.email.toLowerCase();
 
+  // Remove any existing subscriptions.banned settings first
   this.docModel.update(
     { 'email': self.email },
-    {'$set': {
+    { '$unset': {'subscriptions.banned': 1} },
+    { upsert: true },
+    function(err, num, raw) {
+      if (err) {
+        self.response.send(500, err);
+        dslogger.error(err);
+      }
+
+      dslogger.log('Banned settings cleared on: ' + self.email + '.');
+      dslogger.log(raw);
+
+    }
+  );
+
+  this.docModel.update(
+    { 'email': self.email },
+    { '$set': {
         'subscriptions.banned.reason': self.request.body.reason,
         'subscriptions.banned.when': new Date(),
         'subscriptions.banned.source': self.request.body.source
@@ -51,7 +68,6 @@ UserBanned.prototype.post = function(req, res) {
         dslogger.error(err);
       }
 
-      console.log('Banned update/upsert executed on: ' + self.email + '.');
       dslogger.log('Banned update/upsert executed on: ' + self.email + '.');
       dslogger.log(raw);
     
