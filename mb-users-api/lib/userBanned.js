@@ -39,9 +39,9 @@ UserBanned.prototype.post = function(req, res) {
   this.docModel.update(
     { 'email': self.email },
     {'$set': {
-        'subscriptions.banned.reason': self.request.body.reason.ToSring(),
+        'subscriptions.banned.reason': self.request.body.reason,
         'subscriptions.banned.when': new Date(),
-        'subscriptions.banned.source': self.request.body.source.ToSring()
+        'subscriptions.banned.source': self.request.body.source
       }
     },
     { upsert: true },
@@ -51,6 +51,7 @@ UserBanned.prototype.post = function(req, res) {
         dslogger.error(err);
       }
 
+      console.log('Banned update/upsert executed on: ' + self.email + '.');
       dslogger.log('Banned update/upsert executed on: ' + self.email + '.');
       dslogger.log(raw);
     
