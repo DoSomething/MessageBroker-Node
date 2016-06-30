@@ -39,9 +39,9 @@ UserBanned.prototype.post = function(req, res) {
   this.docModel.update(
     { 'email': self.email },
     {'$set': {
-        'subscriptions.banned.reason': self.request.body.reason,
+        'subscriptions.banned.reason': self.request.body.reason.ToSring(),
         'subscriptions.banned.when': new Date(),
-        'subscriptions.banned.source': self.request.body.source
+        'subscriptions.banned.source': self.request.body.source.ToSring()
       }
     },
     { upsert: true },
