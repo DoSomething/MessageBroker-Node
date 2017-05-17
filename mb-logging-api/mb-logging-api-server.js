@@ -1,3 +1,5 @@
+require('@risingstack/trace');
+
 /**
  * mb-loggingapi-server.js
  *
